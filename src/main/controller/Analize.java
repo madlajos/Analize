@@ -1,8 +1,11 @@
 package main.controller;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -56,7 +59,7 @@ public class Analize {
 		Prefs.blackBackground = false;
 		IJ.run(imp, "Convert to Mask", "");
 		IJ.run(imp, "Set Measurements...",
-				"area centroid center perimeter bounding fit shape feret's integrated stack limit redirect=None decimal=1");
+				"area perimeter shape feret's redirect=None decimal=1");
 
 		// Create a stream to hold the output
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -78,12 +81,21 @@ public class Analize {
 		
 
 
-	private void Offline(ByteArrayOutputStream baos) {
+	private void Offline(ByteArrayOutputStream baos) throws FileNotFoundException, IOException {
 		try {
-		    Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.txt"), baos.toString().getBytes(), StandardOpenOption.APPEND);
+		    Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Temp.txt"), baos.toString().getBytes());
 		}catch (IOException e) {
 		    System.out.println(e.getMessage());
 			//exception handling left as an exercise for the reader
+		}
+		File file = new File("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.txt");
+		file.createNewFile();
+		try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Temp.txt"))) {
+		    String line;
+		    while ((line = br.readLine()) != null) {
+		    	line = line + "\thalo\r\n";
+		    	Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.txt"), line.getBytes(), StandardOpenOption.APPEND);
+		    }
 		}
 	}
 	
