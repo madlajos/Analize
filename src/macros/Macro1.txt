@@ -1,0 +1,6 @@
+ dir = "C:\Users\madla\Desktop";
+  name = "\img2.bmp";
+  imp = IJ.openImage(dir+name);
+  IJ.run(imp, "8-bit", "");
+  IJ.setRawThreshold(imp, 1, 255, null);
+  IJ.run(imp, "Analyze Particles...", "  show=Overlay display”);
