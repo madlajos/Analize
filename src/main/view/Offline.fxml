@@ -4,10 +4,10 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="866.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.OfflineController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.OfflineController">
    <children>
-      <RadioButton fx:id="rb1" layoutX="64.0" layoutY="70.0" mnemonicParsing="false" text="Tűs" />
-      <RadioButton fx:id="rb2" layoutX="64.0" layoutY="103.0" mnemonicParsing="false" text="Izomorf" />
-      <Button layoutX="69.0" layoutY="171.0" mnemonicParsing="false" onAction="#trigger" text="Start" />
+      <RadioButton fx:id="rb1" layoutX="90.0" layoutY="71.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="71.0" text="Tűs" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="71.0" />
+      <RadioButton fx:id="rb2" layoutX="90.0" layoutY="112.0" mnemonicParsing="false" text="Izomorf" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="112.0" />
+      <Button layoutX="101.0" layoutY="162.0" mnemonicParsing="false" onAction="#trigger" text="Start" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="101.0" AnchorPane.topAnchor="162.0" />
    </children>
 </AnchorPane>
