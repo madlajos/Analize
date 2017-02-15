@@ -19,17 +19,18 @@ import ij.Prefs;
 
 public class Analize {
 	private boolean online;
-	
+	private boolean tus;
 	private String folderPath;
-
-	public static void main(String[] Args) throws IOException {
-		Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\képek hofinak", true);
-		a.analyse();
+	
+	public Analize(String folderPath){
+		this.folderPath = folderPath;
+		this.online = true;
 	}
 	
-	public Analize(String folderPath, boolean online){
+	public Analize(String folderPath, boolean tus){
 		this.folderPath = folderPath;
-		this.online = online;
+		this.online = false;
+		this.tus = tus;
 	}
 
 	public int analyse() {
@@ -82,6 +83,7 @@ public class Analize {
 
 
 	private void Offline(ByteArrayOutputStream baos) throws FileNotFoundException, IOException {
+		String form = tus ? "Tus" : "Nem";
 		try {
 		    Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Temp.txt"), baos.toString().getBytes());
 		}catch (IOException e) {
@@ -92,9 +94,12 @@ public class Analize {
 		file.createNewFile();
 		try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Temp.txt"))) {
 		    String line;
+		    int c = 0;
 		    while ((line = br.readLine()) != null) {
-		    	line = line + "\thalo\r\n";
+		    	String temp = c == 0 ? "Form" : form;
+		    	line = line + "\t" + temp + "\r\n";
 		    	Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.txt"), line.getBytes(), StandardOpenOption.APPEND);
+		    	c++;
 		    }
 		}
 	}

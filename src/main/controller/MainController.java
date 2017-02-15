@@ -25,19 +25,12 @@ public class MainController {
 	
 	@FXML
 	private void onlineClicked(){
-		Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\képek hofinak", true);
+		Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\képek hofinak");
 		a.analyse();
 	}
 	
 	@FXML
 	private void offlineClicked(){
-		Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\képek hofinak", false);
-		int i = a.analyse();
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText(null);
-		alert.setContentText(i + " kép elemezve");
-
-		alert.showAndWait();
+		
 	}
 }
