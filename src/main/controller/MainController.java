@@ -31,7 +31,7 @@ public class MainController {
 	
 	@FXML
 	private void onlineClicked(){
-		Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kï¿½pek hofinak");
+		Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\képek hofinak");
 		a.analyse();
 	}
 	

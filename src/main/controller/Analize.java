@@ -32,8 +32,8 @@ public class Analize {
 		this.online = false;
 		this.tus = tus;
 	}
-
-	public int analyse() {
+	
+	public int analyse() { 
 		File folder = new File(folderPath);
 		File[] listOfFiles = folder.listFiles();
 		int i;
@@ -56,7 +56,7 @@ public class Analize {
 		ImagePlus imp = IJ.openImage(path);
 		IJ.run(imp, "8-bit", "");
 		IJ.setAutoThreshold(imp, "Default dark");
-		IJ.setThreshold(imp, 187, 255);
+		IJ.setThreshold(imp, 1, 255);
 		Prefs.blackBackground = false;
 		IJ.run(imp, "Convert to Mask", "");
 		IJ.run(imp, "Set Measurements...",
