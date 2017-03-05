@@ -56,11 +56,10 @@ public class Analize {
 		ImagePlus imp = IJ.openImage(path);
 		IJ.run(imp, "8-bit", "");
 		IJ.setAutoThreshold(imp, "Default dark");
-		IJ.setThreshold(imp, 1, 255);
+		IJ.setAutoThreshold(imp, "Moments dark");
 		Prefs.blackBackground = false;
 		IJ.run(imp, "Convert to Mask", "");
-		IJ.run(imp, "Set Measurements...",
-				"area perimeter shape feret's redirect=None decimal=1");
+		IJ.run(imp, "Set Measurements...", "area perimeter shape feret's limit redirect=None decimal=2");
 
 		// Create a stream to hold the output
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -68,7 +67,7 @@ public class Analize {
 		PrintStream old = System.out;
 		// Tell Java to use your special stream
 		System.setOut(ps);
-		IJ.run(imp, "Analyze Particles...", "  show=Outlines display");
+		IJ.run(imp, "Analyze Particles...", "size=100-Infinity show=Outlines display exclude");
 		System.setOut(old);
 		if(online) {
 			Online(baos, filename);
@@ -83,24 +82,39 @@ public class Analize {
 
 
 	private void Offline(ByteArrayOutputStream baos) throws FileNotFoundException, IOException {
+		File file = new File("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.arff");
+		file.createNewFile();
+		
+		/* String line = "@RELATION crystalform\n\n"
+				+ "@ATTRIBUTE line NUMERIC\n@ATTRIBUTE area NUMERIC\n@ATTRIBUTE perim NUMERIC "
+				+ "@ATTRIBUTE circ NUMERIC\n@ATTRIBUTE fereT NUMERIC\n@ATTRIBUTE fereTx NUMERIC\n@ATTRIBUTE ferety NUMERIC\n"
+				+ "@ATTRIBUTE fereTangle NUMERIC\n@ATTRIBUTE minfereT NUMERIC\n@ATTRIBUTE ar NUMERIC\n@ATTRIBUTE round NUMERIC\n"
+				+ "@ATTRIBUTE solidity NUMERIC\n@ATTRIBUTE form {Tus, nem}\n\n@DATA\n";
+		// Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
+		line = "";*/ 
 		String form = tus ? "Tus" : "Nem";
 		try {
-		    Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Temp.txt"), baos.toString().getBytes());
+			Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Temp.arff"), baos.toString().getBytes());
 		}catch (IOException e) {
-		    System.out.println(e.getMessage());
+			System.out.println(e.getMessage());
 			//exception handling left as an exercise for the reader
 		}
-		File file = new File("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.txt");
-		file.createNewFile();
-		try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Temp.txt"))) {
-		    String line;
-		    int c = 0;
-		    while ((line = br.readLine()) != null) {
-		    	String temp = c == 0 ? "Form" : form;
-		    	line = line + "\t" + temp + "\r\n";
-		    	Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.txt"), line.getBytes(), StandardOpenOption.APPEND);
-		    	c++;
-		    }
+		
+		
+		
+		
+		try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Temp.arff"))) {
+			String line;
+			int c = 0;
+			while ((line = br.readLine()) != null) {
+				String temp = c == 0 ? "Form" : form;
+				//line = line.replace("\t" , ",");
+				line = line + "," + temp + "\r\n";
+				if (c > 0) {
+					Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
+				}
+				c++;
+			}
 		}
 	}
 	

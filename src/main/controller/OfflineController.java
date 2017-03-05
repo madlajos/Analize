@@ -5,12 +5,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.CheckBox;
 
 public class OfflineController {
 	@FXML
 	RadioButton rb1; // Tus
 	@FXML
 	RadioButton rb2; // Nem
+	
+	
+
 	final ToggleGroup group = new ToggleGroup();
 	@FXML
 	private void initialize() {
@@ -19,6 +23,7 @@ public class OfflineController {
 		rb1.setSelected(true);
 
 		rb2.setToggleGroup(group);
+		
 
 	}
 	public void trigger() {

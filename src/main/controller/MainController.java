@@ -30,9 +30,21 @@ public class MainController {
 	}
 	
 	@FXML
-	private void onlineClicked(){
-		Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\képek hofinak");
+	private void onlineClicked() throws IOException{
+		FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(MainApp.class.getResource("Online.fxml"));
+        AnchorPane rootLayout = (AnchorPane) loader.load();
+
+        // Show the scene containing the root layout.
+        Scene scene = new Scene(rootLayout);
+        
+		Stage stage = (Stage) online.getScene().getWindow();
+	    // these two of them return the same stage
+	    // Swap screen
+	    stage.setScene(scene);
+		/* Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\képek hofinak");
 		a.analyse();
+		ez a régi volt, amivel egybõl txtket gyárt */
 	}
 	
 	@FXML
@@ -49,4 +61,5 @@ public class MainController {
 	    // Swap screen
 	    stage.setScene(scene);
 	}
+	
 }
