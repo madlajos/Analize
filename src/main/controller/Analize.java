@@ -16,6 +16,7 @@ import java.nio.file.StandardOpenOption;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.Prefs;
+import main.view.beolvas;
 
 public class Analize {
 	private boolean online;
@@ -81,7 +82,7 @@ public class Analize {
 		
 
 
-	private void Offline(ByteArrayOutputStream baos) throws FileNotFoundException, IOException {
+	private void Offline(ByteArrayOutputStream baos) throws Exception {
 		File file = new File("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.arff");
 		file.createNewFile();
 		
@@ -116,6 +117,8 @@ public class Analize {
 				c++;
 			}
 		}
+		beolvas be = new beolvas();
+		beolvas.adatbeolvasas(folderPath);
 	}
 	
 	private void Online(ByteArrayOutputStream baos, String filename) throws Exception {
