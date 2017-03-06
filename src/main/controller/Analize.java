@@ -60,7 +60,7 @@ public class Analize {
 		IJ.setAutoThreshold(imp, "Moments dark");
 		Prefs.blackBackground = false;
 		IJ.run(imp, "Convert to Mask", "");
-		IJ.run(imp, "Set Measurements...", "area perimeter shape feret's limit redirect=None decimal=2");
+		IJ.run(imp, "Set Measurements...", "area perimeter shape feret's limit redirect=None decimal=0");
 
 		// Create a stream to hold the output
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -109,20 +109,22 @@ public class Analize {
 			int c = 0;
 			while ((line = br.readLine()) != null) {
 				String temp = c == 0 ? "Form" : form;
-				//line = line.replace("\t" , ",");
+				line = line.replace("\t" , ",");
 				line = line + "," + temp + "\r\n";
 				if (c > 0) {
 					Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
 				}
 				c++;
 			}
+			
 		}
-		beolvas be = new beolvas();
-		beolvas.adatbeolvasas(folderPath);
 	}
 	
 	private void Online(ByteArrayOutputStream baos, String filename) throws Exception {
 		OutputStream outputStream = new FileOutputStream("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\" + filename + ".txt");
-		baos.writeTo(outputStream);
+		baos.writeTo(outputStream);	
+		
+		beolvas be = new beolvas();
+		beolvas.adatbeolvasas(folderPath);
 	}
 }

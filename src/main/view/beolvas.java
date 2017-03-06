@@ -13,7 +13,7 @@ public class beolvas {
 	public static void adatbeolvasas (String folderPath) throws Exception {
 		String splitBy = ",";
 		File folder = new File(folderPath);
-		BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\madla\\Desktop\\Results.txt"));
+		BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\results.txt"));
 		String line;
 		int [] array = null;
 		int sum = 0;
