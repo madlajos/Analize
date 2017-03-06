@@ -1,11 +1,13 @@
 package main.view;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 public class Online extends Application {
@@ -46,9 +48,5 @@ public class Online extends Application {
 	     */
 	    public Stage getPrimaryStage() {
 	        return primaryStage;
-	    }
-
-	    public static void main(String[] args) {
-	        launch(args);
 	    }
 	}

@@ -3,7 +3,6 @@ package main.controller;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,21 +15,23 @@ import java.nio.file.StandardOpenOption;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.Prefs;
-import main.view.beolvas;
+import main.view.Beolvas;
 
 public class Analize {
 	private boolean online;
 	private boolean tus;
 	private String folderPath;
+	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
 	
 	public Analize(String folderPath){
 		this.folderPath = folderPath;
 		this.online = true;
 	}
 	
-	public Analize(String folderPath, boolean tus){
+	public Analize(String folderPath, String output, boolean tus){
 		this.folderPath = folderPath;
 		this.online = false;
+		this.output = output;
 		this.tus = tus;
 	}
 	
@@ -40,7 +41,7 @@ public class Analize {
 		int i;
 		for (i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {
-				String path = folderPath + "\\" + listOfFiles[i].getName();
+				String path = folderPath + File.separator + listOfFiles[i].getName();
 				try {
 					analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
 				} catch (Exception e) {
@@ -54,6 +55,7 @@ public class Analize {
 	
 
 	private void analyseImage(String path, String filename) throws Exception {
+		System.out.println(path);
 		ImagePlus imp = IJ.openImage(path);
 		IJ.run(imp, "8-bit", "");
 		IJ.setAutoThreshold(imp, "Default dark");
@@ -70,6 +72,7 @@ public class Analize {
 		System.setOut(ps);
 		IJ.run(imp, "Analyze Particles...", "size=100-Infinity show=Outlines display exclude");
 		System.setOut(old);
+		System.out.println("HELLO");
 		if(online) {
 			Online(baos, filename);
 		}
@@ -83,7 +86,7 @@ public class Analize {
 
 
 	private void Offline(ByteArrayOutputStream baos) throws Exception {
-		File file = new File("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.arff");
+		File file = new File(output + File.separator + "Osszes.arff");
 		file.createNewFile();
 		
 		/* String line = "@RELATION crystalform\n\n"
@@ -95,7 +98,7 @@ public class Analize {
 		line = "";*/ 
 		String form = tus ? "Tus" : "Nem";
 		try {
-			Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Temp.arff"), baos.toString().getBytes());
+			Files.write(Paths.get(output + File.separator + "Temp.arff"), baos.toString().getBytes());
 		}catch (IOException e) {
 			System.out.println(e.getMessage());
 			//exception handling left as an exercise for the reader
@@ -104,7 +107,7 @@ public class Analize {
 		
 		
 		
-		try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Temp.arff"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(output + File.separator + "Temp.arff"))) {
 			String line;
 			int c = 0;
 			while ((line = br.readLine()) != null) {
@@ -112,7 +115,7 @@ public class Analize {
 				line = line.replace("\t" , ",");
 				line = line + "," + temp + "\r\n";
 				if (c > 0) {
-					Files.write(Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
+					Files.write(Paths.get(output + File.separator + "Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
 				}
 				c++;
 			}
@@ -121,10 +124,9 @@ public class Analize {
 	}
 	
 	private void Online(ByteArrayOutputStream baos, String filename) throws Exception {
-		OutputStream outputStream = new FileOutputStream("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\" + filename + ".txt");
+		OutputStream outputStream = new FileOutputStream(output + File.separator + filename + ".txt");
 		baos.writeTo(outputStream);	
 		
-		beolvas be = new beolvas();
-		beolvas.adatbeolvasas(folderPath);
+		Beolvas.adatbeolvasas(folderPath);
 	}
 }

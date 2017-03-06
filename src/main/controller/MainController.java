@@ -9,6 +9,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.view.MainApp;
+import main.view.Offline;
 import javafx.scene.control.Button;
 
 public class MainController {
@@ -42,24 +43,15 @@ public class MainController {
 	    // these two of them return the same stage
 	    // Swap screen
 	    stage.setScene(scene);
-		/* Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\képek hofinak");
+		/* Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kï¿½pek hofinak");
 		a.analyse();
-		ez a régi volt, amivel egybõl txtket gyárt */
+		ez a rï¿½gi volt, amivel egybï¿½l txtket gyï¿½rt */
 	}
 	
 	@FXML
 	private void offlineClicked() throws IOException{
-		FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(MainApp.class.getResource("Offline.fxml"));
-        AnchorPane rootLayout = (AnchorPane) loader.load();
-
-        // Show the scene containing the root layout.
-        Scene scene = new Scene(rootLayout);
-        
-		Stage stage = (Stage) offline.getScene().getWindow();
-	    // these two of them return the same stage
-	    // Swap screen
-	    stage.setScene(scene);
+		Offline o = new Offline();
+		o.start((Stage) offline.getScene().getWindow());
 	}
 	
 }

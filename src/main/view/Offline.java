@@ -7,48 +7,47 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import main.controller.OfflineController;
 
 public class Offline extends Application {
 
-	 private Stage primaryStage;
-	    private AnchorPane rootLayout;
+	private Stage stage;
+	private AnchorPane rootLayout;
 
-	    @Override
-	    public void start(Stage primaryStage) {
-	        this.primaryStage = primaryStage;
-	        this.primaryStage.setTitle("Offline");
-	        this.primaryStage.setResizable(false);
-	        initLayout();
-	    }
-
-	    /**
-	     * Initializes the root layout.
-	     */
-	    public void initLayout() {
-	        try {
-	            // Load root layout from fxml file.
-	            FXMLLoader loader = new FXMLLoader();
-	            loader.setLocation(Offline.class.getResource("Offline.fxml"));
-	            rootLayout = (AnchorPane) loader.load();
-
-	            // Show the scene containing the root layout.
-	            Scene scene = new Scene(rootLayout);
-	            primaryStage.setScene(scene);
-	            primaryStage.show();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	    }
-
-	    /**
-	     * Returns the main stage.
-	     * @return
-	     */
-	    public Stage getPrimaryStage() {
-	        return primaryStage;
-	    }
-
-	    public static void main(String[] args) {
-	        launch(args);
-	    }
+	@Override
+	public void start(Stage stage) {
+		this.stage = stage;
+		this.stage.setTitle("Offline");
+		this.stage.setResizable(false);
+		initLayout();
 	}
+
+	/**
+	 * Initializes the root layout.
+	 */
+	public void initLayout() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("Offline.fxml"));
+			AnchorPane rootLayout = (AnchorPane) loader.load();
+
+			// Show the scene containing the root layout.
+			Scene scene = new Scene(rootLayout);
+
+			// these two of them return the same stage
+			// Swap screen
+			((OfflineController) loader.getController()).setStage(stage);
+			stage.setScene(scene);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Returns the main stage.
+	 * @return
+	 */
+	public Stage getPrimaryStage() {
+		return stage;
+	}
+}

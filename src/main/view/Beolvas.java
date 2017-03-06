@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class beolvas {
+public class Beolvas {
 
 	String folderPath;
 	@SuppressWarnings("rawtypes")
