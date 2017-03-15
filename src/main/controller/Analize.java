@@ -62,7 +62,7 @@ public class Analize {
 		IJ.setAutoThreshold(imp, "Moments dark");
 		Prefs.blackBackground = false;
 		IJ.run(imp, "Convert to Mask", "");
-		IJ.run(imp, "Set Measurements...", "area perimeter shape feret's limit redirect=None decimal=0");
+		IJ.run(imp, "Set Measurements...", "area perimeter shape feret's limit redirect=None decimal=2");
 
 		// Create a stream to hold the output
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -119,7 +119,7 @@ public class Analize {
 				}
 				c++;
 			}
-			
+			Beolvas.adatbeolvasas(folderPath);
 		}
 	}
 	
@@ -127,6 +127,6 @@ public class Analize {
 		OutputStream outputStream = new FileOutputStream(output + File.separator + filename + ".txt");
 		baos.writeTo(outputStream);	
 		
-		Beolvas.adatbeolvasas(folderPath);
+		
 	}
 }

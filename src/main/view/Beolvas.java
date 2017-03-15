@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class Beolvas {
 
+public class Beolvas {
+	
 	String folderPath;
 	@SuppressWarnings("rawtypes")
 	public static void adatbeolvasas (String folderPath) throws Exception {
@@ -15,17 +16,17 @@ public class Beolvas {
 		File folder = new File(folderPath);
 		BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\results.txt"));
 		String line;
-		int [] array = null;
-		int sum = 0;
+		double [] array = null;
+		double sum = 0;
 		int  count = 0;
-		ArrayList<Integer> arrlist = new ArrayList<Integer>();
+		ArrayList<Double> arrlist = new ArrayList<>();
 		while((line = br.readLine()) != null){
 			
 			String[] b = line.split(splitBy);
-			array = Arrays.stream(b).mapToInt(Integer::parseInt).toArray();
-			arrlist.add(array[0]);
+			array = Arrays.stream(b).mapToDouble(Double::parseDouble).toArray();
+			arrlist.add(array[1]);
 			
-			sum += array[0];
+			sum += array[1];
 			count ++;
 			
 			//Integer sumofNumbers = sumNumbers(array);
@@ -33,8 +34,8 @@ public class Beolvas {
 		}
 		br.close();
 		
-		int avg = sum/count;
-		System.out.println(avg);
+		double avg = sum/count;
+		System.out.printf("Value: %.2f\n", avg);
 		System.out.println(arrlist);
 		
 	}
