@@ -13,7 +13,7 @@ Label labeld;
 ImageView img;
 	public void trigger() {
 		int i = 0;
-		Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\k�pek hofinak");
+		Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
 		a.setImageView(img);
 		a.analyse();
 	}

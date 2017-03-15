@@ -42,13 +42,15 @@ public class Analize {
 		File folder = new File(folderPath);
 		File[] listOfFiles = folder.listFiles();
 		int i;
-
+		Image image;
 		for (i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {
 				String path = folderPath + File.separator + listOfFiles[i].getName();
 				try {
-					Image image = new Image(path);
+					
+					image = new Image("file:" + path);
 					img.setImage(image);
+					System.out.println(path);
 					analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
 				} catch (Exception e) {
 					System.out.print("Baj van :( ");
