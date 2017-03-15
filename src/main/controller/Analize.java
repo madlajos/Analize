@@ -15,6 +15,8 @@ import java.nio.file.StandardOpenOption;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.Prefs;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import main.view.Beolvas;
 
 public class Analize {
@@ -22,6 +24,7 @@ public class Analize {
 	private boolean tus;
 	private String folderPath;
 	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
+	ImageView img;
 	
 	public Analize(String folderPath){
 		this.folderPath = folderPath;
@@ -39,10 +42,13 @@ public class Analize {
 		File folder = new File(folderPath);
 		File[] listOfFiles = folder.listFiles();
 		int i;
+
 		for (i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {
 				String path = folderPath + File.separator + listOfFiles[i].getName();
 				try {
+					Image image = new Image(path);
+					img.setImage(image);
 					analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
 				} catch (Exception e) {
 					System.out.print("Baj van :( ");
@@ -63,7 +69,6 @@ public class Analize {
 		Prefs.blackBackground = false;
 		IJ.run(imp, "Convert to Mask", "");
 		IJ.run(imp, "Set Measurements...", "area perimeter shape feret's limit redirect=None decimal=2");
-
 		// Create a stream to hold the output
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream(baos);
@@ -72,7 +77,6 @@ public class Analize {
 		System.setOut(ps);
 		IJ.run(imp, "Analyze Particles...", "size=100-Infinity show=Outlines display exclude");
 		System.setOut(old);
-		System.out.println("HELLO");
 		if(online) {
 			Online(baos, filename);
 		}
@@ -128,5 +132,9 @@ public class Analize {
 		baos.writeTo(outputStream);	
 		
 		
+	}
+	
+	public void setImageView(ImageView img){
+		this.img = img;
 	}
 }
