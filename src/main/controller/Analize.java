@@ -48,7 +48,7 @@ public class Analize implements Runnable {
 				try {
 					Image image = new Image("file:" + path);
 					img.setImage(image);
-					System.out.println(i);
+					System.out.println(path);
 					analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
 				} catch (Exception e) {
 					System.out.print("Baj van :( ");
@@ -61,7 +61,7 @@ public class Analize implements Runnable {
 
 
 	private void analyseImage(String path, String filename) throws Exception {
-		//System.out.println(path);
+		System.out.println(path);
 		ImagePlus imp = IJ.openImage(path);
 		IJ.run(imp, "8-bit", "");
 		IJ.setAutoThreshold(imp, "Default dark");
