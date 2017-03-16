@@ -49,7 +49,7 @@ public class Analize implements Runnable {
 					Image image = new Image("file:" + path);
 					img.setImage(image);
 					System.out.println(path);
-					//analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
+					analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
 				} catch (Exception e) {
 					System.out.print("Baj van :( ");
 					System.out.println(e.getMessage());
