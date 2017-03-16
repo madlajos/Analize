@@ -15,7 +15,8 @@ ImageView img;
 		int i = 0;
 		Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
 		a.setImageView(img);
-		a.analyse();
+		Thread t = new Thread(a);
+		t.start();
+		//a.analyse();
 	}
-
 }

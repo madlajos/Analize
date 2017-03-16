@@ -19,39 +19,37 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.view.Beolvas;
 
-public class Analize {
+public class Analize implements Runnable {
 	private boolean online;
 	private boolean tus;
 	private String folderPath;
 	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
 	ImageView img;
-	
+
 	public Analize(String folderPath){
 		this.folderPath = folderPath;
 		this.online = true;
 	}
-	
+
 	public Analize(String folderPath, String output, boolean tus){
 		this.folderPath = folderPath;
 		this.online = false;
 		this.output = output;
 		this.tus = tus;
 	}
-	
+
 	public int analyse() { 
 		File folder = new File(folderPath);
 		File[] listOfFiles = folder.listFiles();
 		int i;
-		Image image;
 		for (i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {
 				String path = folderPath + File.separator + listOfFiles[i].getName();
 				try {
-					
-					image = new Image("file:" + path);
+					Image image = new Image("file:" + path);
 					img.setImage(image);
 					System.out.println(path);
-					analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
+					//analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
 				} catch (Exception e) {
 					System.out.print("Baj van :( ");
 					System.out.println(e.getMessage());
@@ -60,7 +58,7 @@ public class Analize {
 		}
 		return --i;
 	}
-	
+
 
 	private void analyseImage(String path, String filename) throws Exception {
 		System.out.println(path);
@@ -86,15 +84,15 @@ public class Analize {
 			Offline(baos);
 		}
 	}
-		
-		
-		
+
+
+
 
 
 	private void Offline(ByteArrayOutputStream baos) throws Exception {
 		File file = new File(output + File.separator + "Osszes.arff");
 		file.createNewFile();
-		
+
 		/* String line = "@RELATION crystalform\n\n"
 				+ "@ATTRIBUTE line NUMERIC\n@ATTRIBUTE area NUMERIC\n@ATTRIBUTE perim NUMERIC "
 				+ "@ATTRIBUTE circ NUMERIC\n@ATTRIBUTE fereT NUMERIC\n@ATTRIBUTE fereTx NUMERIC\n@ATTRIBUTE ferety NUMERIC\n"
@@ -109,10 +107,10 @@ public class Analize {
 			System.out.println(e.getMessage());
 			//exception handling left as an exercise for the reader
 		}
-		
-		
-		
-		
+
+
+
+
 		try (BufferedReader br = new BufferedReader(new FileReader(output + File.separator + "Temp.arff"))) {
 			String line;
 			int c = 0;
@@ -128,15 +126,21 @@ public class Analize {
 			Beolvas.adatbeolvasas(folderPath);
 		}
 	}
-	
+
 	private void Online(ByteArrayOutputStream baos, String filename) throws Exception {
 		OutputStream outputStream = new FileOutputStream(output + File.separator + filename + ".txt");
 		baos.writeTo(outputStream);	
-		
-		
+
+
 	}
-	
+
 	public void setImageView(ImageView img){
 		this.img = img;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		analyse();
 	}
 }
