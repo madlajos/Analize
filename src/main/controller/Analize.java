@@ -38,8 +38,9 @@ public class Analize implements Runnable {
 		this.tus = tus;
 	}
 
-	public int analyse() { 
+	public int analyse() {
 		File folder = new File(folderPath);
+		while (true){
 		File[] listOfFiles = folder.listFiles();
 		int i;
 		for (i = 0; i < listOfFiles.length; i++) {
@@ -47,21 +48,23 @@ public class Analize implements Runnable {
 				String path = folderPath + File.separator + listOfFiles[i].getName();
 				try {
 					Image image = new Image("file:" + path);
-					img.setImage(image);
+					//img.setImage(image);
 					System.out.println(path);
 					analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
+					Files.delete(listOfFiles[i].toPath());
 				} catch (Exception e) {
 					System.out.print("Baj van :( ");
+					e.printStackTrace();
 					System.out.println(e.getMessage());
 				}
 			}
 		}
-		return --i;
+		}
+		//return 0;
 	}
 
 
 	private void analyseImage(String path, String filename) throws Exception {
-		System.out.println(path);
 		ImagePlus imp = IJ.openImage(path);
 		IJ.run(imp, "8-bit", "");
 		IJ.setAutoThreshold(imp, "Default dark");
@@ -102,10 +105,12 @@ public class Analize implements Runnable {
 		line = "";*/ 
 		String form = tus ? "Tus" : "Nem";
 		try {
+			File Temp = new File(output + File.separator + "Temp.arff");
+			Temp.createNewFile();
 			Files.write(Paths.get(output + File.separator + "Temp.arff"), baos.toString().getBytes());
 		}catch (IOException e) {
 			System.out.println(e.getMessage());
-			//exception handling left as an exercise for the reader
+			
 		}
 
 
@@ -123,14 +128,30 @@ public class Analize implements Runnable {
 				}
 				c++;
 			}
-			Beolvas.adatbeolvasas(folderPath);
+			
 		}
 	}
 
 	private void Online(ByteArrayOutputStream baos, String filename) throws Exception {
 		OutputStream outputStream = new FileOutputStream(output + File.separator + filename + ".txt");
-		baos.writeTo(outputStream);	
-
+		baos.writeTo(outputStream);
+		BufferedReader br = new BufferedReader(new FileReader(output + File.separator + filename + ".txt"));
+		try  {
+			
+			String line;
+			int c = 0;
+			while ((line = br.readLine()) != null) {
+				line = line.replace("\t" , ",");
+				if (c > 0) {
+					Files.write(Paths.get(output + File.separator + "Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
+				}
+				c++;
+			}
+		
+		}
+		catch(Exception e){}
+			
+		Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff");
 
 	}
 
@@ -140,7 +161,6 @@ public class Analize implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		analyse();
 	}
 }

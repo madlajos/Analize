@@ -11,10 +11,10 @@ public class Beolvas {
 	
 	String folderPath;
 	@SuppressWarnings("rawtypes")
-	public static void adatbeolvasas (String folderPath) throws Exception {
+	public static void adatbeolvasas (String folderPath, String filePath) throws Exception {
 		String splitBy = ",";
 		File folder = new File(folderPath);
-		BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\results.txt"));
+		BufferedReader br = new BufferedReader(new FileReader(filePath));
 		String line;
 		double [] array = null;
 		double sum = 0;

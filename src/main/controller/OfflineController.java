@@ -41,11 +41,15 @@ public class OfflineController {
 		int i = 0;
 		if (rb1.isSelected()) {
 			Analize a = new Analize(imagel.getAbsolutePath(), outputl.getAbsolutePath(), true);
-			i = a.analyse();
+			//i = a.analyse();
+			Thread t = new Thread(a);
+			t.start();
 		}
 		else if (rb2.isSelected()) {
 			Analize a = new Analize(imagel.getAbsolutePath(), outputl.getAbsolutePath(), false);
-			i = a.analyse();
+			//i = a.analyse();
+			Thread t = new Thread(a);
+			t.start();
 		}
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Information Dialog");
