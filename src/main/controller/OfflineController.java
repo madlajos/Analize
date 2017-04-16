@@ -3,7 +3,10 @@ package main.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 import javafx.fxml.FXML;
@@ -29,6 +32,7 @@ public class OfflineController {
 	@FXML
 	Label outputLoc;
 	Properties prop = new Properties();
+	File properties = new File("src/config/defaultpaths.properties");
 
 
 	final ToggleGroup group = new ToggleGroup();
@@ -38,7 +42,7 @@ public class OfflineController {
 		rb1.setSelected(true);
 		rb2.setToggleGroup(group);
 		try {
-			prop.load(new FileInputStream("config/defaultpaths.properties"));
+			prop.load(new FileInputStream(properties));
 			imageLoc.setText(prop.getProperty("offline_input"));
 			outputLoc.setText(prop.getProperty("offline_output"));
 		} catch (Exception e) {
@@ -77,7 +81,16 @@ public class OfflineController {
 		DirectoryChooser dc = new DirectoryChooser();
 		imagel = dc.showDialog(stage);
 		imageLoc.setText(imagel.getAbsolutePath());
-		prop.setProperty("offline_input", imagel.getAbsolutePath());
+		
+		OutputStream prop_output;
+		try {
+			prop_output = new FileOutputStream(properties);
+			prop.setProperty("offline_input", imagel.getAbsolutePath());
+			prop.store(prop_output, null);
+			prop_output.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@FXML
@@ -86,5 +99,6 @@ public class OfflineController {
 		outputl = dc.showDialog(stage);
 		outputLoc.setText(outputl.getAbsolutePath());
 		prop.setProperty("offline_output", outputl.getAbsolutePath());
+		//prop.store(prop_input, null);
 	}
 }
