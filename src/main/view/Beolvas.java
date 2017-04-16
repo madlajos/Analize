@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+import javafx.scene.control.TextArea;
+
 
 public class Beolvas {
 	
 	String folderPath;
-	public static void adatbeolvasas (String folderPath, String filePath) throws Exception {
+	public static void adatbeolvasas (String folderPath, String filePath, TextArea ta) throws Exception {
 		String splitBy = ",";
 		File folder = new File(folderPath);
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
@@ -35,7 +37,7 @@ public class Beolvas {
 		br.close();
 		
 		double avg = sum/count;
-		System.out.printf("Value: %.2f\n", avg);
+		ta.appendText(String.format("Value: %.2f\n", avg));
 		System.out.println(arrlist);
 		
 	}

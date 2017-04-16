@@ -15,6 +15,7 @@ import java.nio.file.StandardOpenOption;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.Prefs;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.view.Beolvas;
@@ -26,6 +27,7 @@ public class Analize implements Runnable {
 	private String folderPath;
 	private String output = "/Users/istvanhoffer/Desktop";
 	ImageView img;
+	TextArea ta;
 
 	//online
 	public Analize(String folderPath){
@@ -194,12 +196,16 @@ public class Analize implements Runnable {
 		}
 		catch(Exception e){}
 			
-		Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff");
+		Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", ta);
 
 	}
 
 	public void setImageView(ImageView img){
 		this.img = img;
+	}
+	
+	public void setTextArea(TextArea ta){
+		this.ta = ta;
 	}
 
 	@Override
