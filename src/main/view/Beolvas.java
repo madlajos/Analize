@@ -22,13 +22,11 @@ public class Beolvas {
 		int  count = 0;
 		ArrayList<Double> arrlist = new ArrayList<>();
 		while((line = br.readLine()) != null){
-			System.out.println(line);
 			String[] b = line.split(splitBy);
 			array = Arrays.stream(b).mapToDouble(Double::parseDouble).toArray();
 			arrlist.add(array[1]);
 			
 			sum += array[1];
-			System.out.println(array[1]);
 			count ++;
 			
 			//Integer sumofNumbers = sumNumbers(array);
@@ -37,7 +35,7 @@ public class Beolvas {
 		br.close();
 		
 		double avg = sum/count;
-		ta.appendText(String.format("Value: %.2f\n", avg));
+		ta.appendText(String.format("%.2f \n", avg));
 		System.out.println(arrlist);
 		
 	}

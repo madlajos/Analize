@@ -25,7 +25,7 @@ public class Analize implements Runnable {
 	private boolean tus;
 	volatile private boolean granulalas;
 	private String folderPath;
-	private String output = "C\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
+	private String output = "/Users/istvanhoffer/Develop/Analize/kepek";
 	ImageView img;
 	TextArea ta;
 
@@ -206,6 +206,7 @@ public class Analize implements Runnable {
 	
 	public void setTextArea(TextArea ta){
 		this.ta = ta;
+		ta.setText("Boldog húsvétot :)\n");
 	}
 
 	@Override
