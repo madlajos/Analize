@@ -10,7 +10,6 @@ import java.util.stream.IntStream;
 public class Beolvas {
 	
 	String folderPath;
-	@SuppressWarnings("rawtypes")
 	public static void adatbeolvasas (String folderPath, String filePath) throws Exception {
 		String splitBy = ",";
 		File folder = new File(folderPath);
@@ -21,12 +20,13 @@ public class Beolvas {
 		int  count = 0;
 		ArrayList<Double> arrlist = new ArrayList<>();
 		while((line = br.readLine()) != null){
-			
+			System.out.println(line);
 			String[] b = line.split(splitBy);
 			array = Arrays.stream(b).mapToDouble(Double::parseDouble).toArray();
 			arrlist.add(array[1]);
 			
 			sum += array[1];
+			System.out.println(array[1]);
 			count ++;
 			
 			//Integer sumofNumbers = sumNumbers(array);

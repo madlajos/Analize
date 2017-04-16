@@ -24,7 +24,7 @@ public class Analize implements Runnable {
 	private boolean tus;
 	volatile private boolean granulalas;
 	private String folderPath;
-	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
+	private String output = "/Users/istvanhoffer/Desktop";
 	ImageView img;
 
 	//online
@@ -51,7 +51,7 @@ public class Analize implements Runnable {
 	
 	public int analyse() {
 		File folder = new File(folderPath);
-		while (true){
+		//while (true){
 		File[] listOfFiles = folder.listFiles();
 		int i;
 		for (i = 0; i < listOfFiles.length; i++) {
@@ -72,8 +72,8 @@ public class Analize implements Runnable {
 				}
 			}
 		}
-		}
-		//return 0;
+		//}
+		return 0;
 	}
 
 
@@ -175,6 +175,8 @@ public class Analize implements Runnable {
 	private void Online(ByteArrayOutputStream baos, String filename) throws Exception {
 		OutputStream outputStream = new FileOutputStream(output + File.separator + filename + ".txt");
 		baos.writeTo(outputStream);
+		File file = new File(output + File.separator + "Osszes.arff");
+		file.createNewFile();
 		BufferedReader br = new BufferedReader(new FileReader(output + File.separator + filename + ".txt"));
 		try  {
 			
@@ -182,6 +184,7 @@ public class Analize implements Runnable {
 			int c = 0;
 			while ((line = br.readLine()) != null) {
 				line = line.replace("\t" , ",");
+				line += "\r\n";
 				if (c > 0) {
 					Files.write(Paths.get(output + File.separator + "Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
 				}
