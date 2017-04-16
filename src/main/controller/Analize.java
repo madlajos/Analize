@@ -22,7 +22,7 @@ import main.view.Beolvas;
 public class Analize implements Runnable {
 	private boolean online;
 	private boolean tus;
-	private boolean granulalas;
+	volatile private boolean granulalas;
 	private String folderPath;
 	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
 	ImageView img;
@@ -32,6 +32,7 @@ public class Analize implements Runnable {
 		this.folderPath = folderPath;
 		this.online = true;
 	}
+	
 	//offline
 	public Analize(String folderPath, String output, boolean tus){
 		this.folderPath = folderPath;
@@ -39,10 +40,10 @@ public class Analize implements Runnable {
 		this.output = output;
 		this.tus = tus;
 	}
+	
 	//granulálás
 	public Analize(String folderPath, String output){
 		this.folderPath = folderPath;
-		this.online = false;
 		this.output = output;
 		this.granulalas = true;
 	}
@@ -158,6 +159,7 @@ public class Analize implements Runnable {
 			int c = 0;
 			while ((line = br.readLine()) != null) {
 				line = line.replace("\t" , ",");
+				line += "\r\n";
 				if (c > 0) {
 					Files.write(Paths.get(output + File.separator + "Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
 				}

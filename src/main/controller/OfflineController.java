@@ -47,7 +47,9 @@ public class OfflineController {
 		try {
 			prop.load(new FileInputStream(properties));
 			imageLoc.setText(prop.getProperty("offline_input"));
+			imagel = new File(imageLoc.getText());
 			outputLoc.setText(prop.getProperty("offline_output"));
+			outputl = new File(outputLoc.getText());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -109,7 +111,15 @@ public class OfflineController {
 		DirectoryChooser dc = new DirectoryChooser();
 		outputl = dc.showDialog(stage);
 		outputLoc.setText(outputl.getAbsolutePath());
-		prop.setProperty("offline_output", outputl.getAbsolutePath());
-		//prop.store(prop_input, null);
+		
+		OutputStream prop_output;
+		try {
+			prop_output = new FileOutputStream(properties);
+			prop.setProperty("offline_output", outputl.getAbsolutePath());
+			prop.store(prop_output, null);
+			prop_output.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
