@@ -45,6 +45,7 @@ public class Analize implements Runnable {
 	public Analize(String folderPath, String output){
 		this.folderPath = folderPath;
 		this.output = output;
+		this.online = false;
 		this.granulalas = true;
 	}
 	
@@ -58,7 +59,9 @@ public class Analize implements Runnable {
 				String path = folderPath + File.separator + listOfFiles[i].getName();
 				try {
 					Image image = new Image("file:" + path);
-					//img.setImage(image);
+					if(online){
+						img.setImage(image);
+					}
 					System.out.println(path);
 					analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
 					Files.delete(listOfFiles[i].toPath());
