@@ -28,6 +28,8 @@ public class OfflineController {
 	@FXML
 	RadioButton rb2; // Nem
 	@FXML
+	RadioButton rb3; // Granulálás
+	@FXML
 	Label imageLoc;
 	@FXML
 	Label outputLoc;
@@ -41,6 +43,7 @@ public class OfflineController {
 		rb1.setToggleGroup(group);
 		rb1.setSelected(true);
 		rb2.setToggleGroup(group);
+		rb3.setToggleGroup(group);
 		try {
 			prop.load(new FileInputStream(properties));
 			imageLoc.setText(prop.getProperty("offline_input"));
@@ -63,6 +66,14 @@ public class OfflineController {
 			Analize a = new Analize(imagel.getAbsolutePath(), outputl.getAbsolutePath(), false);
 			//i = a.analyse();
 			Thread t = new Thread(a);
+			t.setPriority(Thread.MAX_PRIORITY);
+			t.start();
+		}
+		else if (rb3.isSelected()) {
+			Analize a = new Analize(imagel.getAbsolutePath(), outputl.getAbsolutePath());
+			//i = a.analyse();
+			Thread t = new Thread(a);
+			t.setPriority(Thread.MAX_PRIORITY);
 			t.start();
 		}
 		Alert alert = new Alert(AlertType.INFORMATION);

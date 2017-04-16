@@ -26,18 +26,25 @@ public class Analize implements Runnable {
 	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
 	ImageView img;
 
+	//online
 	public Analize(String folderPath){
 		this.folderPath = folderPath;
 		this.online = true;
 	}
-
+	//offline
 	public Analize(String folderPath, String output, boolean tus){
 		this.folderPath = folderPath;
 		this.online = false;
 		this.output = output;
 		this.tus = tus;
 	}
-
+	//granulálás
+	public Analize(String folderPath, String output){
+		this.folderPath = folderPath;
+		this.online = false;
+		this.output = output;
+	}
+	
 	public int analyse() {
 		File folder = new File(folderPath);
 		while (true){
@@ -84,7 +91,7 @@ public class Analize implements Runnable {
 			Online(baos, filename);
 		}
 		else {
-			//Offline(baos);
+			Offline(baos);
 		}
 	}
 
