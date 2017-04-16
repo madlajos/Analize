@@ -1,6 +1,10 @@
 package main.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -24,17 +28,22 @@ public class OfflineController {
 	Label imageLoc;
 	@FXML
 	Label outputLoc;
-
+	Properties prop = new Properties();
 
 
 	final ToggleGroup group = new ToggleGroup();
 	@FXML
 	private void initialize() {
-
 		rb1.setToggleGroup(group);
 		rb1.setSelected(true);
-
 		rb2.setToggleGroup(group);
+		try {
+			prop.load(new FileInputStream("config/defaultpaths.properties"));
+			imageLoc.setText(prop.getProperty("offline_input"));
+			outputLoc.setText(prop.getProperty("offline_output"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void trigger() {
@@ -68,6 +77,7 @@ public class OfflineController {
 		DirectoryChooser dc = new DirectoryChooser();
 		imagel = dc.showDialog(stage);
 		imageLoc.setText(imagel.getAbsolutePath());
+		prop.setProperty("offline_input", imagel.getAbsolutePath());
 	}
 	
 	@FXML
@@ -75,5 +85,6 @@ public class OfflineController {
 		DirectoryChooser dc = new DirectoryChooser();
 		outputl = dc.showDialog(stage);
 		outputLoc.setText(outputl.getAbsolutePath());
+		prop.setProperty("offline_output", outputl.getAbsolutePath());
 	}
 }
