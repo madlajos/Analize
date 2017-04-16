@@ -84,7 +84,7 @@ public class Analize implements Runnable {
 			Online(baos, filename);
 		}
 		else {
-			Offline(baos);
+			//Offline(baos);
 		}
 	}
 

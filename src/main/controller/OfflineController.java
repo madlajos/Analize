@@ -43,6 +43,7 @@ public class OfflineController {
 			Analize a = new Analize(imagel.getAbsolutePath(), outputl.getAbsolutePath(), true);
 			//i = a.analyse();
 			Thread t = new Thread(a);
+			t.setPriority(Thread.MAX_PRIORITY);
 			t.start();
 		}
 		else if (rb2.isSelected()) {
