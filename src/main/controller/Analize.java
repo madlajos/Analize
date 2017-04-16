@@ -22,6 +22,7 @@ import main.view.Beolvas;
 public class Analize implements Runnable {
 	private boolean online;
 	private boolean tus;
+	private boolean granulalas;
 	private String folderPath;
 	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
 	ImageView img;
@@ -43,6 +44,7 @@ public class Analize implements Runnable {
 		this.folderPath = folderPath;
 		this.online = false;
 		this.output = output;
+		this.granulalas = true;
 	}
 	
 	public int analyse() {
@@ -87,7 +89,9 @@ public class Analize implements Runnable {
 		System.setOut(ps);
 		IJ.run(imp, "Analyze Particles...", "size=100-Infinity show=Outlines display exclude");
 		System.setOut(old);
-		if(online) {
+		if(granulalas){
+			Granulalas(baos);
+		} else if(online) {
 			Online(baos, filename);
 		}
 		else {
@@ -121,8 +125,6 @@ public class Analize implements Runnable {
 		}
 
 
-
-
 		try (BufferedReader br = new BufferedReader(new FileReader(output + File.separator + "Temp.arff"))) {
 			String line;
 			int c = 0;
@@ -130,6 +132,32 @@ public class Analize implements Runnable {
 				String temp = c == 0 ? "Form" : form;
 				line = line.replace("\t" , ",");
 				line = line + "," + temp + "\r\n";
+				if (c > 0) {
+					Files.write(Paths.get(output + File.separator + "Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
+				}
+				c++;
+			}
+			
+		}
+	}
+	
+	private void Granulalas(ByteArrayOutputStream baos) throws IOException{
+		File file = new File(output + File.separator + "Osszes.arff");
+		file.createNewFile();
+		try {
+			File Temp = new File(output + File.separator + "Temp.arff");
+			Temp.createNewFile();
+			Files.write(Paths.get(output + File.separator + "Temp.arff"), baos.toString().getBytes());
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
+			
+		}
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(output + File.separator + "Temp.arff"))) {
+			String line;
+			int c = 0;
+			while ((line = br.readLine()) != null) {
+				line = line.replace("\t" , ",");
 				if (c > 0) {
 					Files.write(Paths.get(output + File.separator + "Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
 				}
