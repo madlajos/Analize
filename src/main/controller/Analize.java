@@ -25,7 +25,7 @@ public class Analize implements Runnable {
 	private boolean tus;
 	volatile private boolean granulalas;
 	private String folderPath;
-	private String output = "/Users/istvanhoffer/Desktop";
+	private String output = "C\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
 	ImageView img;
 	TextArea ta;
 
@@ -66,7 +66,7 @@ public class Analize implements Runnable {
 					}
 					System.out.println(path);
 					analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
-					Files.delete(listOfFiles[i].toPath());
+					//Files.delete(listOfFiles[i].toPath());
 				} catch (Exception e) {
 					System.out.print("Baj van :( ");
 					e.printStackTrace();
