@@ -22,6 +22,7 @@ TextArea ta1;
 		Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
 		a.setImageView(img);
 		a.setTextArea(ta1);
+		//System.out.println("Hello \n" + a );
 		Thread t = new Thread(a);
 		t.start();
 		//a.analyse();
