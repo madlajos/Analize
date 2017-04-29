@@ -17,12 +17,15 @@ ImageView img;
 CheckBox cb1;
 @FXML
 TextArea ta1;
+@FXML
+TextArea ta2;
+
 	public void trigger() {
 		int i = 0;
 		Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
 		a.setImageView(img);
-		a.setTextArea(ta1);
-		//System.out.println("Hello \n" + a );
+		a.setTextArea(ta1, ta2);
+		//a.setTextArea(ta2);
 		Thread t = new Thread(a);
 		t.start();
 		//a.analyse();

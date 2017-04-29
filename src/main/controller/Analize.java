@@ -27,7 +27,8 @@ public class Analize implements Runnable {
 	private String folderPath;
 	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
 	ImageView img;
-	TextArea ta;
+	TextArea ta1;
+	TextArea ta2;
 
 	//online
 	public Analize(String folderPath){
@@ -195,7 +196,7 @@ public class Analize implements Runnable {
 		}
 		catch(Exception e){}
 			
-		Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", ta);
+		Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", ta1, ta2);
 
 	}
 
@@ -203,9 +204,9 @@ public class Analize implements Runnable {
 		this.img = img;
 	}
 	
-	public void setTextArea(TextArea ta){
-		this.ta = ta;
-		ta.setText("Boldog húsvétot :)\n");
+	public void setTextArea(TextArea ta1, TextArea ta2){
+		this.ta1 = ta1;
+		this.ta2 = ta2;
 	}
 
 	@Override
