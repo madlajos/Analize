@@ -82,8 +82,8 @@ public class Analize implements Runnable {
 	private void analyseImage(String path, String filename) throws Exception {
 		ImagePlus imp = IJ.openImage(path);
 		IJ.run(imp, "8-bit", "");
-		IJ.setAutoThreshold(imp, "Default dark");
-		IJ.setAutoThreshold(imp, "Moments dark");
+		//IJ.setAutoThreshold(imp, "Default dark");
+		IJ.setRawThreshold(imp, 177, 255, null);
 		Prefs.blackBackground = false;
 		IJ.run(imp, "Convert to Mask", "");
 		IJ.run(imp, "Set Measurements...", "area perimeter shape feret's limit redirect=None decimal=2");

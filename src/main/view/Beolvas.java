@@ -14,36 +14,50 @@ public class Beolvas {
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
 		String line;
 		double [] array = null;
-		double areasum = 0;
+		double dsum = 0;
 		double ARsum = 0;
-		ArrayList<Double> arrlist1 = new ArrayList<>();
-		ArrayList<Double> arrlist2 = new ArrayList<>();
+		int count = 0;
+		ArrayList<Double> arrlist1 = new ArrayList<>(); //Area
+		ArrayList<Double> arrlist2 = new ArrayList<>(); //Aspect Ratio
 		
 		while((line = br.readLine()) != null){
 			String[] b = line.split(splitBy);
 			array = Arrays.stream(b).mapToDouble(Double::parseDouble).toArray();
+			
 			//System.out.println(Arrays.toString(array));
+			//System.out.println(array[1]);
 			
-			arrlist1.add((double) Math.round(Math.sqrt(4*array[1]/Math.PI)));
 			
-			if (array.length == 12) { //az utolsó sor nincs 10 hosszú és errort dob rá
-				arrlist2.add(array[10]);
-			}
-		
+			//a grafikonokhoz lehet arraylist kéne, azért hagytam itt
+			//arrlist1.add((double) Math.round(Math.sqrt(4*array[1]/Math.PI)));
+			//arrlist2.add(array[10]);
+			
+			
+			dsum += Math.round(Math.sqrt(4*array[1]/Math.PI));
+			ARsum += array[10];
+			count ++;
+			
 		}
 		br.close();
+		/*
+		System.out.println(dsum);
+		System.out.println("count = " + count);
+		System.out.println(ARsum);
+		*/
+		double davg = dsum/count;
+		double ARavg = ARsum/count;
 		
-		for (int i = 1; i < arrlist1.size()-1; i++) { 
-			areasum += arrlist1.get(i);
-			ARsum += arrlist2.get(i);
-		}
+		ta1.appendText(String.format("%.1f \n", davg));
+		ta2.appendText(String.format("%.2f \n", ARavg));
 		
-		double areaavg = areasum/arrlist1.size();
-		double ARavg = ARsum/arrlist2.size();
-		ta1.appendText(String.format("%.1f \n", areaavg));
-		ta2.appendText(String.format("%.1f \n", ARavg));
-		//System.out.println(arrlist1);
-		//System.out.println(arrlist2);
+		/*
+		dsum = 0;
+		ARsum = 0;
+		count = 0;
+		
+		arrlist1.clear();
+		arrlist2.clear();
+		*/
 		
 	}
 }

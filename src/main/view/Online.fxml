@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="866.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.OnlineController">
    <children>
@@ -13,5 +14,7 @@
       <CheckBox fx:id="cb1" layoutX="52.0" layoutY="424.0" mnemonicParsing="false" text="Elemzett képek törlése" />
       <TextArea fx:id="ta1" layoutX="36.0" layoutY="36.0" prefHeight="200.0" prefWidth="200.0" />
       <TextArea fx:id="ta2" layoutX="252.0" layoutY="36.0" prefHeight="200.0" prefWidth="200.0" />
+      <Text layoutX="300.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Átlagos aspect ratio" />
+      <Text layoutX="95.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Átlagos átmérő" />
    </children>
 </AnchorPane>
