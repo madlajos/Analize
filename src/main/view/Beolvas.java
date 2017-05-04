@@ -1,6 +1,7 @@
 package main.view;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javafx.scene.control.TextArea;
@@ -49,6 +50,9 @@ public class Beolvas {
 		
 		ta1.appendText(String.format("%.1f \n", davg));
 		ta2.appendText(String.format("%.2f \n", ARavg));
+		
+		PrintWriter pw = new PrintWriter("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.arff");
+		pw.close();
 		
 		/*
 		dsum = 0;
