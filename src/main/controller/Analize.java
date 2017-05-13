@@ -15,9 +15,12 @@ import java.nio.file.StandardOpenOption;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.Prefs;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.TextFlow;
 import main.view.Beolvas;
 
 public class Analize implements Runnable {
@@ -29,6 +32,7 @@ public class Analize implements Runnable {
 	ImageView img;
 	TextArea ta1;
 	TextArea ta2;
+	TextFlow tf1;
 
 	//online
 	public Analize(String folderPath){
@@ -208,7 +212,7 @@ public class Analize implements Runnable {
 		this.ta1 = ta1;
 		this.ta2 = ta2;
 	}
-
+	
 	@Override
 	public void run() {
 		analyse();

@@ -4,7 +4,14 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 
 public class Beolvas {
@@ -15,11 +22,14 @@ public class Beolvas {
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
 		String line;
 		double [] array = null;
+		double d = 0;
 		double dsum = 0;
 		double ARsum = 0;
 		int count = 0;
-		ArrayList<Double> arrlist1 = new ArrayList<>(); //Area
-		ArrayList<Double> arrlist2 = new ArrayList<>(); //Aspect Ratio
+		double V = 0;
+		double Vsum = 0;
+		//ArrayList<Double> arrlist1 = new ArrayList<>(); //Area
+		//ArrayList<Double> arrlist2 = new ArrayList<>(); //Aspect Ratio
 		
 		while((line = br.readLine()) != null){
 			String[] b = line.split(splitBy);
@@ -33,13 +43,16 @@ public class Beolvas {
 			//arrlist1.add((double) Math.round(Math.sqrt(4*array[1]/Math.PI)));
 			//arrlist2.add(array[10]);
 			
-			
-			dsum += Math.round(Math.sqrt(4*array[1]/Math.PI));
+			d = Math.round(Math.sqrt(4*array[1]/Math.PI));
+			dsum += d;
 			ARsum += array[10];
 			count ++;
-			
+			V = 4.0*Math.PI*Math.pow(Math.round(Math.sqrt(4*array[1]/Math.PI))/2, 3)/3;
+			Vsum += V;
 		}
+		
 		br.close();
+		
 		/*
 		System.out.println(dsum);
 		System.out.println("count = " + count);
@@ -48,11 +61,17 @@ public class Beolvas {
 		double davg = dsum/count;
 		double ARavg = ARsum/count;
 		
-		ta1.appendText(String.format("%.1f \n", davg));
-		ta2.appendText(String.format("%.2f \n", ARavg));
+		ta1.appendText(String.format("%.1f\n", davg));
+		ta2.appendText(String.format("%.2f\n", ARavg));
 		
+		
+		//Osszes.arff-et üressé teszi
 		PrintWriter pw = new PrintWriter("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.arff");
 		pw.close();
+		
+	}
+		
+	    
 		
 		/*
 		dsum = 0;
@@ -64,4 +83,3 @@ public class Beolvas {
 		*/
 		
 	}
-}

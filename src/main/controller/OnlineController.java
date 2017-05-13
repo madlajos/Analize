@@ -3,9 +3,16 @@ package main.controller;
 import java.awt.Label;
 
 import javafx.fxml.FXML;
+import javafx.scene.chart.Axis;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+//import main.view.Linechart;
 
 public class OnlineController {
 
@@ -19,6 +26,12 @@ CheckBox cb1;
 TextArea ta1;
 @FXML
 TextArea ta2;
+@FXML
+NumberAxis xAxis;
+@FXML
+NumberAxis yAxis;
+@FXML
+LineChart<String, Number> lineChart;
 
 	public void trigger() {
 		int i = 0;
@@ -29,5 +42,8 @@ TextArea ta2;
 		Thread t = new Thread(a);
 		t.start();
 		//a.analyse();
+		
+	
+	    
 	}
 }
