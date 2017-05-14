@@ -2,10 +2,7 @@ package main.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
@@ -16,10 +13,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import main.Analize;
+import main.AnalyzeHandler;
 
 public class OfflineController {
 	Stage stage;
@@ -62,21 +58,21 @@ public class OfflineController {
 	public void trigger() {
 		int i = 0;
 		if (rb1.isSelected()) {
-			Analize a = new Analize(imagel.getAbsolutePath(), outputl.getAbsolutePath(), true);
+			AnalyzeHandler a = new AnalyzeHandler(imagel.getAbsolutePath(), outputl.getAbsolutePath(), true);
 			//i = a.analyse();
 			Thread t = new Thread(a);
 			t.setPriority(Thread.MAX_PRIORITY);
 			t.start();
 		}
 		else if (rb2.isSelected()) {
-			Analize a = new Analize(imagel.getAbsolutePath(), outputl.getAbsolutePath(), false);
+			AnalyzeHandler a = new AnalyzeHandler(imagel.getAbsolutePath(), outputl.getAbsolutePath(), false);
 			//i = a.analyse();
 			Thread t = new Thread(a);
 			t.setPriority(Thread.MAX_PRIORITY);
 			t.start();
 		}
 		else if (rb3.isSelected()) {
-			Analize a = new Analize(imagel.getAbsolutePath(), outputl.getAbsolutePath());
+			AnalyzeHandler a = new AnalyzeHandler(imagel.getAbsolutePath(), outputl.getAbsolutePath());
 			//i = a.analyse();
 			Thread t = new Thread(a);
 			t.setPriority(Thread.MAX_PRIORITY);

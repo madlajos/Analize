@@ -15,77 +15,29 @@ import java.nio.file.StandardOpenOption;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.Prefs;
-import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.TextFlow;
-import main.view.Beolvas;
 
-public class Analize implements Runnable {
-	private boolean online;
+public class AnalyzeImage {
+	private AnalyzeMode mode;
+	private String path, filename, output;
 	private boolean tus;
-	volatile private boolean granulalas;
-	private String folderPath;
-	//private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
-	private String output = "/Users/istvanhoffer/Desktop/Results";
-	ImageView img;
-	TextArea ta1;
-	TextArea ta2;
-	TextFlow tf1;
-
-	//online
-	public Analize(String folderPath){
-		this.folderPath = folderPath;
-		this.online = true;
-	}
 	
-	//offline
-	public Analize(String folderPath, String output, boolean tus){
-		this.folderPath = folderPath;
-		this.online = false;
+	public AnalyzeImage(AnalyzeMode mode, String path, String filename, String output, boolean tus){
+		this.path = path;
+		this.filename = filename;
+		this.mode = mode;
 		this.output = output;
 		this.tus = tus;
 	}
 	
-	//granulálás
-	public Analize(String folderPath, String output){
-		this.folderPath = folderPath;
-		this.output = output;
-		this.online = false;
-		this.granulalas = true;
+	public void startAnalyze(){
+		try {
+			analyzeImage();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public int analyse() {
-		File folder = new File(folderPath);
-		while (true){
-		File[] listOfFiles = folder.listFiles();
-		int i;
-		for (i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()) {
-				String path = folderPath + File.separator + listOfFiles[i].getName();
-				if(!path.matches("(.*)\\.jpg")){
-					continue;
-				}
-				try {
-					Image image = new Image("file:" + path);
-					if(online){
-						img.setImage(image);
-					}
-					System.out.println(path);
-					analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
-					//Files.delete(listOfFiles[i].toPath());
-				} catch (Exception e) {
-					System.out.println("Baj van :( ");
-					e.printStackTrace();
-					System.out.println(e.getMessage());
-				}
-			}
-		}
-		}
-	}
-
-
-	private void analyseImage(String path, String filename) throws Exception {
+	private void analyzeImage() throws Exception {
 		ImagePlus imp = IJ.openImage(path);
 		IJ.run(imp, "8-bit", "");
 		//IJ.setAutoThreshold(imp, "Default dark");
@@ -101,20 +53,23 @@ public class Analize implements Runnable {
 		System.setOut(ps);
 		IJ.run(imp, "Analyze Particles...", "size=100-Infinity show=Outlines display exclude");
 		System.setOut(old);
-		if(granulalas){
+		outputHandler(baos, filename);
+	}
+	
+	private void outputHandler(ByteArrayOutputStream baos, String filename) throws Exception{
+		switch(mode){
+		case GRANULALAS:
 			Granulalas(baos);
-		} else if(online) {
+			break;
+		case ONLINE:
 			Online(baos, filename);
-		}
-		else {
+			break;
+		case OFFLINE:
 			Offline(baos);
+			break;
 		}
 	}
-
-
-
-
-
+	
 	private void Offline(ByteArrayOutputStream baos) throws Exception {
 		File file = new File(output + File.separator + "Osszes.arff");
 		file.createNewFile();
@@ -133,9 +88,8 @@ public class Analize implements Runnable {
 			Files.write(Paths.get(output + File.separator + "Temp.arff"), baos.toString().getBytes());
 		}catch (IOException e) {
 			System.out.println(e.getMessage());
-			
-		}
 
+		}
 
 		try (BufferedReader br = new BufferedReader(new FileReader(output + File.separator + "Temp.arff"))) {
 			String line;
@@ -149,35 +103,20 @@ public class Analize implements Runnable {
 				}
 				c++;
 			}
-			
 		}
 	}
-	
-	private void Granulalas(ByteArrayOutputStream baos) throws IOException{
+
+	private void Granulalas(ByteArrayOutputStream baos) throws Exception{
 		File file = new File(output + File.separator + "Osszes.arff");
 		file.createNewFile();
 		try {
 			File Temp = new File(output + File.separator + "Temp.arff");
 			Temp.createNewFile();
 			Files.write(Paths.get(output + File.separator + "Temp.arff"), baos.toString().getBytes());
-		}catch (IOException e) {
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
-			
 		}
-		
-		try (BufferedReader br = new BufferedReader(new FileReader(output + File.separator + "Temp.arff"))) {
-			String line;
-			int c = 0;
-			while ((line = br.readLine()) != null) {
-				line = line.replace("\t" , ",");
-				line += "\r\n";
-				if (c > 0) {
-					Files.write(Paths.get(output + File.separator + "Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
-				}
-				c++;
-			}
-			
-		}
+		writeFile(output + File.separator + "Temp.arff");
 	}
 
 	private void Online(ByteArrayOutputStream baos, String filename) throws Exception {
@@ -185,11 +124,14 @@ public class Analize implements Runnable {
 		baos.writeTo(outputStream);
 		File file = new File(output + File.separator + "Osszes.arff");
 		file.createNewFile();
-		BufferedReader br = new BufferedReader(new FileReader(output + File.separator + filename + ".txt"));
-		try  {
-			
-			String line;
+		
+		writeFile(output + File.separator + filename + ".txt");
+	}
+	
+	private void writeFile(String filename) throws Exception{
+		try(BufferedReader br = new BufferedReader(new FileReader(filename))){
 			int c = 0;
+			String line;
 			while ((line = br.readLine()) != null) {
 				line = line.replace("\t" , ",");
 				line += "\r\n";
@@ -198,25 +140,6 @@ public class Analize implements Runnable {
 				}
 				c++;
 			}
-		
 		}
-		catch(Exception e){}
-			
-		Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", ta1, ta2);
-
-	}
-
-	public void setImageView(ImageView img){
-		this.img = img;
-	}
-	
-	public void setTextArea(TextArea ta1, TextArea ta2){
-		this.ta1 = ta1;
-		this.ta2 = ta2;
-	}
-	
-	@Override
-	public void run() {
-		analyse();
 	}
 }
