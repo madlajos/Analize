@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="203.0" prefWidth="429.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.OfflineController">
+   <children>
+      <RadioButton fx:id="rb1" layoutX="314.0" layoutY="20.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="71.0" text="Tűs" AnchorPane.leftAnchor="314.0" AnchorPane.rightAnchor="-135.0" AnchorPane.topAnchor="20.0" />
+      <RadioButton fx:id="rb2" layoutX="314.0" layoutY="48.0" mnemonicParsing="false" prefHeight="20.0" text="Izomorf" AnchorPane.leftAnchor="314.0" AnchorPane.rightAnchor="-135.0" AnchorPane.topAnchor="48.0" />
+      <Button layoutX="119.0" layoutY="159.0" mnemonicParsing="false" onAction="#trigger" prefHeight="25.0" prefWidth="192.0" text="Start" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="118.0" AnchorPane.topAnchor="159.0" />
+      <Text layoutX="14.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Images location:">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Text>
+      <Text layoutX="14.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output location:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Text>
+      <Label fx:id="imageLoc" layoutX="14.0" layoutY="42.0" text="Not set" />
+      <Label fx:id="outputLoc" layoutX="14.0" layoutY="85.0" text="Not set" />
+      <Button layoutX="120.0" layoutY="22.0" mnemonicParsing="false" onAction="#setImageLoc" prefHeight="3.0" prefWidth="32.0" text="Set">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <Button layoutX="118.0" layoutY="66.0" mnemonicParsing="false" onAction="#setOutputLoc" prefWidth="35.0" text="Set">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <RadioButton fx:id="rb3" layoutX="314.0" layoutY="74.0" mnemonicParsing="false" prefHeight="20.0" text="Granulátum" />
+      <CheckBox fx:id="cb1" layoutX="136.0" layoutY="127.0" mnemonicParsing="false" text="Elemzett képek törlése" />
+   </children>
+</AnchorPane>
