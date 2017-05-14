@@ -1,12 +1,10 @@
-package main.view;
+package main.util;
 
 public class IntervalLoop {
 	final double dmin;
 	final double dmax;
 	final double q;
-	int matrix [] = new int[100];
-	
-	
+	int[] cardinalityVector = new int[100];
 	
 	public IntervalLoop(double dmin, double dmax){
 		this.dmin = dmin;
@@ -14,15 +12,9 @@ public class IntervalLoop {
 		this.q = Math.pow(dmax/dmin, 1.0/100);
 	}
 	
-	public static void main(String[] Args){
-		IntervalLoop il = new IntervalLoop(0.01, 10000);
-		System.out.println(il.getBottomBound(99));
-		System.out.println(il.getTopBound(99));
-	}
-	
 	public void addItem(double val){
 		int index = getIndex(val);
-		matrix [index]++;
+		cardinalityVector[index]++;
 	} 
 	
 	public double getTopBound(int index){
@@ -37,10 +29,12 @@ public class IntervalLoop {
 		int x = (int) (Math.log(val/dmin)/Math.log(q));
 		return x;
 	}
+	
 	private double getintervalAvg(int index) {
 		return (getTopBound(index)+getTopBound(index))/2;
 	}
+	
 	private double getInteralVolume(int index){
-		return getintervalAvg(index)*matrix[index];
+		return getintervalAvg(index) * cardinalityVector[index];
 	}
 }
