@@ -19,8 +19,7 @@ import main.AnalyzeHandler;
 
 public class OfflineController {
 	Stage stage;
-	File imagel;
-	File outputl;
+	File imagel, outputl;
 	@FXML
 	RadioButton rb1; // Tus
 	@FXML
@@ -30,9 +29,7 @@ public class OfflineController {
 	@FXML
 	CheckBox cb1; // Törlés
 	@FXML
-	Label imageLoc;
-	@FXML
-	Label outputLoc;
+	Label imageLoc, outputLoc;
 	Properties prop = new Properties();
 	File properties = new File("src/config/defaultpaths.properties");
 

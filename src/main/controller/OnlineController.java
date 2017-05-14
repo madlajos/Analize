@@ -18,13 +18,9 @@ public class OnlineController {
 	@FXML
 	CheckBox cb1;
 	@FXML
-	TextArea ta1;
+	TextArea ta1, ta2;
 	@FXML
-	TextArea ta2;
-	@FXML
-	NumberAxis xAxis;
-	@FXML
-	NumberAxis yAxis;
+	NumberAxis xAxis, yAxis;
 	@FXML
 	LineChart<String, Number> lineChart;
 
