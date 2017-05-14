@@ -4,20 +4,17 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.view.MainApp;
 import main.view.Offline;
-import javafx.scene.control.Button;
 
 public class MainController {
 	@FXML
 	private Button online;
 	@FXML
 	private Button offline;
-
 	private MainApp mainApp;
 
 	@FXML
@@ -43,9 +40,6 @@ public class MainController {
 	    // these two of them return the same stage
 	    // Swap screen
 	    stage.setScene(scene);
-		/* Analize a = new Analize("C:\\Users\\madla\\Google Drive\\TDK\\Java\\k�pek hofinak");
-		a.analyse();
-		ez a r�gi volt, amivel egyb�l txtket gy�rt */
 	}
 	
 	@FXML

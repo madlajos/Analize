@@ -13,6 +13,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 //import main.view.Linechart;
+import main.Analize;
 
 public class OnlineController {
 

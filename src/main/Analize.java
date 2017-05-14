@@ -1,4 +1,4 @@
-package main.controller;
+package main;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -15,8 +15,6 @@ import java.nio.file.StandardOpenOption;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.Prefs;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,7 +26,8 @@ public class Analize implements Runnable {
 	private boolean tus;
 	volatile private boolean granulalas;
 	private String folderPath;
-	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
+	//private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
+	private String output = "/Users/istvanhoffer/Desktop/Results";
 	ImageView img;
 	TextArea ta1;
 	TextArea ta2;
@@ -64,6 +63,9 @@ public class Analize implements Runnable {
 		for (i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {
 				String path = folderPath + File.separator + listOfFiles[i].getName();
+				if(!path.matches("(.*)\\.jpg")){
+					continue;
+				}
 				try {
 					Image image = new Image("file:" + path);
 					if(online){
@@ -71,9 +73,9 @@ public class Analize implements Runnable {
 					}
 					System.out.println(path);
 					analyseImage(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
-					Files.delete(listOfFiles[i].toPath());
+					//Files.delete(listOfFiles[i].toPath());
 				} catch (Exception e) {
-					System.out.print("Baj van :( ");
+					System.out.println("Baj van :( ");
 					e.printStackTrace();
 					System.out.println(e.getMessage());
 				}
