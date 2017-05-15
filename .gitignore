@@ -1,5 +1,6 @@
 kepek
 bin
+.settings
 
 # Windows image file caches
 Thumbs.db
