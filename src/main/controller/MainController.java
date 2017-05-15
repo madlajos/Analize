@@ -19,12 +19,10 @@ public class MainController {
 
 	@FXML
 	private void initialize() {
-
 	}
 
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
-
 	}
 	
 	@FXML
