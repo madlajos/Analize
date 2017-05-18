@@ -7,7 +7,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.TextFlow;
-import main.view.Beolvas;
 
 public class AnalyzeHandler implements Runnable {
 	private boolean tus;
