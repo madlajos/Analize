@@ -12,9 +12,9 @@ public class AnalyzeHandler implements Runnable {
 	private boolean tus;
 	private final AnalyzeMode mode;
 	private String folderPath;
-	private boolean deleteAnalized = false;
-	//private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
-	private String output = "/Users/istvanhoffer/Desktop/Results";
+	private boolean deleteAnalized = true;
+	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
+	//private String output = "/Users/istvanhoffer/Desktop/Results";
 	ImageView img;
 	TextArea ta1, ta2;
 	TextFlow tf1;

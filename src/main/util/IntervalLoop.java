@@ -5,6 +5,7 @@ public class IntervalLoop {
 	final double dmax;
 	final double q;
 	int[] cardinalityVector = new int[100];
+	int[] volumeVector = new int[100];
 	
 	public IntervalLoop(double dmin, double dmax){
 		this.dmin = dmin;
@@ -15,6 +16,7 @@ public class IntervalLoop {
 	public void addItem(double val){
 		int index = getIndex(val);
 		cardinalityVector[index]++;
+		volumeVector[index] += val; 
 	} 
 	
 	public double getTopBound(int index){
