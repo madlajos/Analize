@@ -1,11 +1,16 @@
 package main.util;
 
+import java.util.ArrayList;
+
+import org.apache.commons.math3.stat.descriptive.rank.Percentile;
+
 public class IntervalLoop {
 	final double dmin;
 	final double dmax;
 	final double q;
 	int[] cardinalityVector = new int[100];
-	int[] volumeVector = new int[100];
+	double[] volumeVector = new double[100];
+	ArrayList<Double> items = new ArrayList<>();
 	
 	public IntervalLoop(double dmin, double dmax){
 		this.dmin = dmin;
@@ -15,8 +20,13 @@ public class IntervalLoop {
 	
 	public void addItem(double val){
 		int index = getIndex(val);
-		cardinalityVector[index]++;
-		volumeVector[index] += val; 
+		try {
+			cardinalityVector[index]++;
+			volumeVector[index] += val;
+			items.add(val);
+		} catch (Exception e) {
+			
+		}
 	} 
 	
 	public double getTopBound(int index){
@@ -38,5 +48,15 @@ public class IntervalLoop {
 	
 	private double getInteralVolume(int index){
 		return getintervalAvg(index) * cardinalityVector[index];
+	}
+	
+	public double getPercentile(double p){
+		Percentile perc = new Percentile(p);
+		double[] temp = new double[items.size()];
+		for(int i = 0; i < items.size(); i++){
+			temp[i] = items.get(i);
+		}
+		perc.setData(temp);
+		return perc.evaluate();
 	}
 }

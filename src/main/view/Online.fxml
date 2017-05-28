@@ -39,7 +39,5 @@
       <Text layoutX="495.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dv10" />
       <Text layoutX="495.0" layoutY="469.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dv50" />
       <Text layoutX="495.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dv90" />
-      <Button layoutX="380.0" layoutY="34.0" mnemonicParsing="false" onAction="#test" text="Button" />
-      <Button layoutX="380.0" layoutY="111.0" mnemonicParsing="false" onAction="#test2" text="Test2" />
    </children>
 </AnchorPane>

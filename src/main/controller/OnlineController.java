@@ -23,23 +23,28 @@ public class OnlineController {
 	NumberAxis xAxis, yAxis;
 	@FXML
 	LineChart<Number, Number> lineChart;
-	XYChart.Series series = new XYChart.Series();
 	
 	public void trigger() {
-		lineChart.getData().add(series);
+		XYChart.Series series10 = new XYChart.Series();
+		series10.setName("Dv10");
+		XYChart.Series series50 = new XYChart.Series();
+		series50.setName("Dv50");
+		XYChart.Series series90 = new XYChart.Series();
+		series90.setName("Dv90");
+		
+		lineChart.getData().add(series10);
+		lineChart.getData().add(series50);
+		lineChart.getData().add(series90);
+		lineChart.setCreateSymbols(false);
+		xAxis.setAutoRanging(false);
+	    xAxis.setLowerBound(0);
+	    xAxis.setUpperBound(120);
 		AnalyzeHandler a = new AnalyzeHandler("/Users/istvanhoffer/Develop/Analize/kepek");
 		a.setImageView(img);
 		a.setTextArea(ta1, ta2);
+		a.setSeries(series10, series50, series90);
 		Thread t = new Thread(a);
-		//t.start();
+		t.start();
 		
 	}
-	public void test() throws InterruptedException {
-		series.getData().add(new XYChart.Data(3, 15));
-        series.getData().add(new XYChart.Data(4, 24));
-	}
-	public void test2() {
-		series.getData().add(new XYChart.Data(5, 10));
-	}
-	
 }

@@ -2,22 +2,16 @@ package main;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
+import main.util.IntervalLoop;
 
 
 public class Beolvas {
 
 	String folderPath;
-	public static void adatbeolvasas (String folderPath, String filePath, TextArea ta1, TextArea ta2) throws Exception {
+	public static void adatbeolvasas (String folderPath, String filePath, TextArea ta1, TextArea ta2, IntervalLoop ip) throws Exception {
 		String splitBy = ",";
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
 		String line;
@@ -26,7 +20,6 @@ public class Beolvas {
 		double dsum = 0;
 		double ARsum = 0;
 		int count = 0;
-		double V = 0;
 		double Vsum = 0;
 		//ArrayList<Double> arrlist1 = new ArrayList<>(); //Area
 		//ArrayList<Double> arrlist2 = new ArrayList<>(); //Aspect Ratio
@@ -43,13 +36,14 @@ public class Beolvas {
 			//arrlist1.add((double) Math.round(Math.sqrt(4*array[1]/Math.PI)));
 			//arrlist2.add(array[10]);
 
-			d = Math.round(Math.sqrt(4*array[1]/Math.PI));
+			d = Math.sqrt(4*array[1]/Math.PI);
 			dsum += d;
 			ARsum += array[10];
 			count ++;
-			// V-t máshogy kell számolni halló
-			V = 4.0*Math.PI*Math.pow(Math.round(Math.sqrt(4*array[1]/Math.PI))/2, 3)/3;
+			// V-t mï¿½shogy kell szï¿½molni hallï¿½
+			double V = 4.0*Math.PI*Math.pow(d/2, 3)/3;
 			Vsum += V;
+			ip.addItem(V);
 		}
 
 
@@ -68,7 +62,7 @@ public class Beolvas {
 
 
 		//Osszes.arff-et Ã¼ressÃ© teszi
-		PrintWriter pw = new PrintWriter("C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results\\Osszes.arff");
+		PrintWriter pw = new PrintWriter(filePath);
 		pw.close();
 
 	}

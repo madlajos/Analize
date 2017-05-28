@@ -3,21 +3,28 @@ package main;
 import java.io.File;
 import java.nio.file.Files;
 
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.TextFlow;
+import main.util.IntervalLoop;
 
 public class AnalyzeHandler implements Runnable {
+	private final double DMIN = 0.01;
+	private final double DMAX = 10000;
+	private final double NKEP = 2;
+	
 	private boolean tus;
 	private final AnalyzeMode mode;
 	private String folderPath;
-	private boolean deleteAnalized = true;
-	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
-	//private String output = "/Users/istvanhoffer/Desktop/Results";
+	private boolean deleteAnalized = false;
+	//private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
+	private String output = "/Users/istvanhoffer/Desktop/Results";
 	ImageView img;
 	TextArea ta1, ta2;
 	TextFlow tf1;
+	XYChart.Series series10, series50, series90;
 
 	//online
 	public AnalyzeHandler(String folderPath){
@@ -42,6 +49,8 @@ public class AnalyzeHandler implements Runnable {
 
 	public void analyse() {
 		File folder = new File(folderPath);
+		IntervalLoop ip = new IntervalLoop(DMIN, DMAX);
+		int c = 0;
 		while (true){
 			File[] listOfFiles = folder.listFiles();
 			for (int i = 0; i < listOfFiles.length; i++) {
@@ -58,7 +67,14 @@ public class AnalyzeHandler implements Runnable {
 						System.out.println("Current image: " + path);
 						sendToAnalize(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
 						if(mode == AnalyzeMode.ONLINE){
-							Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", ta1, ta2);
+							if(c % NKEP == 0){
+								ip = new IntervalLoop(DMIN, DMAX);
+							}
+							Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", ta1, ta2, ip);
+							series10.getData().add(new XYChart.Data(c, ip.getPercentile(10)));
+							series50.getData().add(new XYChart.Data(c, ip.getPercentile(50)));
+							series90.getData().add(new XYChart.Data(c, ip.getPercentile(90)));
+							c++;
 						}
 						if(deleteAnalized){
 							Files.delete(listOfFiles[i].toPath());
@@ -89,5 +105,11 @@ public class AnalyzeHandler implements Runnable {
 	@Override
 	public void run() {
 		analyse();
+	}
+	
+	public void setSeries(XYChart.Series s10, XYChart.Series s50, XYChart.Series s90){
+		this.series10 = s10;
+		this.series50 = s50;
+		this.series90 = s90;
 	}
 }
