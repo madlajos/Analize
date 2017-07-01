@@ -32,7 +32,7 @@ public class IntervalLoop {
 	} 
 	
 	public double getTopBound(int index){
-		return dmin*Math.pow(q, index+1);
+		return dmax*Math.pow(q, index+1);
 	}
 	
 	public double getBottomBound(int index){
@@ -49,14 +49,14 @@ public class IntervalLoop {
 	}
 	
 	private double getInteralVolume(int index){
-		return getintervalAvg(index) * cardinalityVector[index];
+		return volumeVector[index];
 	}
 	
 	public double getIntervalVpercent(int index){
 		double intervalV = getInteralVolume(index);
 		double result;
 		try {
-			result = intervalV / totalV;
+			result = intervalV / totalV * 100;
 		} catch(Exception e){
 			result = 0;
 		}

@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 
+import javafx.application.Platform;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -14,12 +15,12 @@ import main.util.IntervalLoop;
 public class AnalyzeHandler implements Runnable {
 	private final double DMIN = 0.01;
 	private final double DMAX = 10000;
-	private final double NKEP = 2;
+	private final double NKEP = 10;
 	
 	private boolean tus;
 	private final AnalyzeMode mode;
 	private String folderPath;
-	private boolean deleteAnalized = true;
+	private boolean deleteAnalized = false;
 	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
 	//private String output = "/Users/istvanhoffer/Desktop/Results";
 	ImageView img;
@@ -69,6 +70,7 @@ public class AnalyzeHandler implements Runnable {
 						sendToAnalize(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
 						if(mode == AnalyzeMode.ONLINE){
 							if(c % NKEP == 0){
+								Platform.runLater(() -> updateBarchart());
 								ip = new IntervalLoop(DMIN, DMAX);
 							}
 							Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", ta1, ta2, ip);
@@ -76,7 +78,7 @@ public class AnalyzeHandler implements Runnable {
 							series10.getData().add(new XYChart.Data(timestamp, ip.getPercentile(10)));
 							series50.getData().add(new XYChart.Data(timestamp, ip.getPercentile(50)));
 							series90.getData().add(new XYChart.Data(timestamp, ip.getPercentile(90)));
-							updateBarchart();
+							
 							c++;
 						}
 						if(deleteAnalized){
@@ -92,7 +94,9 @@ public class AnalyzeHandler implements Runnable {
 	}
 	
 	private void updateBarchart(){
+		System.out.println("halo");
 		for(int i = 0; i < 100; i++){
+			System.out.print(ip.getIntervalVpercent(i) +" ");
 			barSeries.getData().add(new XYChart.Data(new Integer(i).toString(), ip.getIntervalVpercent(i)));
 		}
 	}
@@ -113,7 +117,7 @@ public class AnalyzeHandler implements Runnable {
 
 	@Override
 	public void run() {
-		//analyse();
+		analyse();
 	}
 	
 	public void setLinechartSeries(XYChart.Series<String, Number> s10, XYChart.Series<String, Number> s50, XYChart.Series<String, Number> s90){
