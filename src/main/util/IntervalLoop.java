@@ -11,7 +11,7 @@ public class IntervalLoop {
 	int[] cardinalityVector = new int[100];
 	double[] volumeVector = new double[100];
 	ArrayList<Double> items = new ArrayList<>();
-	double totalV;
+	double totalV = 0.0;
 	
 	public IntervalLoop(double dmin, double dmax){
 		this.dmin = dmin;
@@ -53,13 +53,10 @@ public class IntervalLoop {
 	
 	public double getIntervalVpercent(int index){
 		double intervalV = getInteralVolume(index);
-		double result;
-		try {
-			result = intervalV / totalV * 100;
-		} catch(Exception e){
-			result = 0;
+		if(totalV == 0.0){
+			return 0;
 		}
-		return result;
+		return intervalV / totalV * 100;
 	}
 	
 	public double getPercentile(double p){

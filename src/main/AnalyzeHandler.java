@@ -13,8 +13,8 @@ import javafx.scene.text.TextFlow;
 import main.util.IntervalLoop;
 
 public class AnalyzeHandler implements Runnable {
-	private final double DMIN = 10;
-	private final double DMAX = 200;
+	private final double DMIN = 0.01;
+	private final double DMAX = 10000;
 	private final double NKEP = 3;
 	
 	private boolean tus;
@@ -27,7 +27,7 @@ public class AnalyzeHandler implements Runnable {
 	TextArea ta1, ta2;
 	TextFlow tf1;
 	XYChart.Series series10, series50, series90, barSeries;
-	IntervalLoop ip = new IntervalLoop(DMIN, DMAX);;
+	IntervalLoop ip = new IntervalLoop(DMIN, DMAX);
 
 	//online
 	public AnalyzeHandler(String folderPath){

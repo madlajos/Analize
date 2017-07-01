@@ -54,18 +54,12 @@ public class OnlineController {
 		lineChart.getData().add(series50);
 		lineChart.getData().add(series90);
 		lineChart.setCreateSymbols(false);
-		/*
-		lineXAxis.setAutoRanging(false);
-	    lineXAxis.setLowerBound(0);
-	    lineXAxis.setUpperBound(120);
-	    */
 		a.setLinechartSeries(series10, series50, series90);
 	}
 	
 	private void setupBarchart(AnalyzeHandler a){
 		XYChart.Series<String, Number> barSeries = new XYChart.Series<>();
-		barYAxis.setUpperBound(10);
-		barYAxis.setAutoRanging(false);
+		barSeries.setName("Bar Chart");
 		barChart.setAnimated(false);
 		barChart.setLegendVisible(false);
 		barChart.getData().add(barSeries);
