@@ -25,7 +25,8 @@ public class AnalyzeHandler implements Runnable {
 	ImageView img;
 	TextArea ta1, ta2;
 	TextFlow tf1;
-	XYChart.Series series10, series50, series90;
+	XYChart.Series series10, series50, series90, barSeries;
+	IntervalLoop ip = new IntervalLoop(DMIN, DMAX);;
 
 	//online
 	public AnalyzeHandler(String folderPath){
@@ -50,7 +51,6 @@ public class AnalyzeHandler implements Runnable {
 
 	public void analyse() {
 		File folder = new File(folderPath);
-		IntervalLoop ip = new IntervalLoop(DMIN, DMAX);
 		int c = 0;
 		while (true){
 			File[] listOfFiles = folder.listFiles();
@@ -76,6 +76,7 @@ public class AnalyzeHandler implements Runnable {
 							series10.getData().add(new XYChart.Data(timestamp, ip.getPercentile(10)));
 							series50.getData().add(new XYChart.Data(timestamp, ip.getPercentile(50)));
 							series90.getData().add(new XYChart.Data(timestamp, ip.getPercentile(90)));
+							updateBarchart();
 							c++;
 						}
 						if(deleteAnalized){
@@ -87,6 +88,12 @@ public class AnalyzeHandler implements Runnable {
 					}
 				}
 			}
+		}
+	}
+	
+	private void updateBarchart(){
+		for(int i = 0; i < 100; i++){
+			barSeries.getData().add(new XYChart.Data(new Integer(i).toString(), ip.getIntervalVpercent(i)));
 		}
 	}
 	
@@ -106,12 +113,19 @@ public class AnalyzeHandler implements Runnable {
 
 	@Override
 	public void run() {
-		analyse();
+		//analyse();
 	}
 	
-	public void setSeries(XYChart.Series s10, XYChart.Series s50, XYChart.Series s90){
+	public void setLinechartSeries(XYChart.Series<String, Number> s10, XYChart.Series<String, Number> s50, XYChart.Series<String, Number> s90){
 		this.series10 = s10;
 		this.series50 = s50;
 		this.series90 = s90;
+	}
+	
+	public void setBarchartSeries(XYChart.Series<String, Number> barSeries){
+		this.barSeries = barSeries;
+		for(int i = 0; i < 100; i++){
+			this.barSeries.getData().add(new XYChart.Data(new Integer(i).toString(), 0));
+		}
 	}
 }

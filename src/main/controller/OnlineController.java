@@ -2,6 +2,7 @@ package main.controller;
 
 import java.awt.Label;
 import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -21,18 +22,31 @@ public class OnlineController {
 	@FXML
 	TextArea ta1, ta2;
 	@FXML
-	NumberAxis yAxis;
+	NumberAxis lineYAxis, barYAxis;
 	@FXML
-	CategoryAxis xAxis;
+	CategoryAxis lineXAxis, barXAxis;
 	@FXML
 	LineChart<String, Number> lineChart;
+	@FXML
+	BarChart<String, Number> barChart;
 	
 	public void trigger() {
-		XYChart.Series series10 = new XYChart.Series();
+		
+		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
+		a.setImageView(img);
+		a.setTextArea(ta1, ta2);
+		setupLinechart(a);
+		setupBarchart(a);
+		Thread t = new Thread(a);
+		t.start();	
+	}
+	
+	private void setupLinechart(AnalyzeHandler a){
+		XYChart.Series<String, Number> series10 = new XYChart.Series<>();
 		series10.setName("Dv10");
-		XYChart.Series series50 = new XYChart.Series();
+		XYChart.Series<String, Number> series50 = new XYChart.Series<>();
 		series50.setName("Dv50");
-		XYChart.Series series90 = new XYChart.Series();
+		XYChart.Series<String, Number> series90 = new XYChart.Series<>();
 		series90.setName("Dv90");
 		
 		lineChart.getData().add(series10);
@@ -40,16 +54,18 @@ public class OnlineController {
 		lineChart.getData().add(series90);
 		lineChart.setCreateSymbols(false);
 		/*
-		xAxis.setAutoRanging(false);
-	    xAxis.setLowerBound(0);
-	    xAxis.setUpperBound(120);
+		lineXAxis.setAutoRanging(false);
+	    lineXAxis.setLowerBound(0);
+	    lineXAxis.setUpperBound(120);
 	    */
-		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
-		a.setImageView(img);
-		a.setTextArea(ta1, ta2);
-		a.setSeries(series10, series50, series90);
-		Thread t = new Thread(a);
-		t.start();
+		a.setLinechartSeries(series10, series50, series90);
+	}
+	
+	private void setupBarchart(AnalyzeHandler a){
+		XYChart.Series<String, Number> barSeries = new XYChart.Series<>();
+		barYAxis.setUpperBound(100);
+		barChart.getData().add(barSeries);
 		
+		a.setBarchartSeries(barSeries);
 	}
 }

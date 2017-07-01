@@ -56,6 +56,5 @@ public class Beolvas {
 		//Osszes.arff-et üressé teszi
 		PrintWriter pw = new PrintWriter(filePath);
 		pw.close();
-
 	}
 }
