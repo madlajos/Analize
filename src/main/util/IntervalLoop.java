@@ -21,13 +21,12 @@ public class IntervalLoop {
 	
 	public void addItem(double val){
 		int index = getIndex(val);
-		totalV += val;
+		totalV += d2Volume(val);
 		try {
 			cardinalityVector[index]++;
-			volumeVector[index] += val;
+			volumeVector[index] += d2Volume(val);
 			items.add(val);
 		} catch (Exception e) {
-			
 		}
 	} 
 	
@@ -71,5 +70,17 @@ public class IntervalLoop {
 		}
 		perc.setData(temp);
 		return perc.evaluate();
+	}
+	
+	private double d2Volume(double d){
+		return 4.0 * Math.PI * Math.pow(d/2, 3)/3;
+	}
+	
+	public double getSum(){
+		double sum = 0;
+		for(int i = 0; i < 100; i++){
+			sum += volumeVector[i];
+		}
+		return sum;
 	}
 }

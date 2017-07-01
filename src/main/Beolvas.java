@@ -39,7 +39,7 @@ public class Beolvas {
 			// V-t m�shogy kell sz�molni hall�
 			double V = 4.0*Math.PI*Math.pow(d/2, 3)/3;
 			Vsum += V;
-			ip.addItem(V);
+			ip.addItem(d);
 			
 		}
 

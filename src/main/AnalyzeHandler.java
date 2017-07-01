@@ -15,14 +15,14 @@ import main.util.IntervalLoop;
 public class AnalyzeHandler implements Runnable {
 	private final double DMIN = 0.01;
 	private final double DMAX = 10000;
-	private final double NKEP = 10;
+	private final double NKEP = 8;
 	
 	private boolean tus;
 	private final AnalyzeMode mode;
 	private String folderPath;
 	private boolean deleteAnalized = false;
-	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
-	//private String output = "/Users/istvanhoffer/Desktop/Results";
+	//private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
+	private String output = "/Users/istvanhoffer/Desktop/Results";
 	ImageView img;
 	TextArea ta1, ta2;
 	TextFlow tf1;
@@ -70,7 +70,8 @@ public class AnalyzeHandler implements Runnable {
 						sendToAnalize(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
 						if(mode == AnalyzeMode.ONLINE){
 							if(c % NKEP == 0){
-								Platform.runLater(() -> updateBarchart());
+								IntervalLoop ipClone = ip;
+								Platform.runLater(() -> updateBarchart(ipClone));
 								ip = new IntervalLoop(DMIN, DMAX);
 							}
 							Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", ta1, ta2, ip);
@@ -78,7 +79,6 @@ public class AnalyzeHandler implements Runnable {
 							series10.getData().add(new XYChart.Data(timestamp, ip.getPercentile(10)));
 							series50.getData().add(new XYChart.Data(timestamp, ip.getPercentile(50)));
 							series90.getData().add(new XYChart.Data(timestamp, ip.getPercentile(90)));
-							
 							c++;
 						}
 						if(deleteAnalized){
@@ -93,11 +93,10 @@ public class AnalyzeHandler implements Runnable {
 		}
 	}
 	
-	private void updateBarchart(){
-		System.out.println("halo");
+	private void updateBarchart(IntervalLoop ip){
 		for(int i = 0; i < 100; i++){
-			System.out.print(ip.getIntervalVpercent(i) +" ");
-			barSeries.getData().add(new XYChart.Data(new Integer(i).toString(), ip.getIntervalVpercent(i)));
+			//barSeries.getData().add(new XYChart.Data(new Integer(i).toString(), ip.getIntervalVpercent(i)));
+			barSeries.getData().add(new XYChart.Data(new Integer(i).toString(), i));
 		}
 	}
 	

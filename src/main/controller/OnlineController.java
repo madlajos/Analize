@@ -32,7 +32,8 @@ public class OnlineController {
 	
 	public void trigger() {
 		
-		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
+		//AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
+		AnalyzeHandler a = new AnalyzeHandler("/Users/istvanhoffer/Desktop/images");
 		a.setImageView(img);
 		a.setTextArea(ta1, ta2);
 		setupLinechart(a);
@@ -64,6 +65,8 @@ public class OnlineController {
 	private void setupBarchart(AnalyzeHandler a){
 		XYChart.Series<String, Number> barSeries = new XYChart.Series<>();
 		barYAxis.setUpperBound(100);
+		barYAxis.setAutoRanging(false);
+		barChart.setAnimated(false);
 		barChart.getData().add(barSeries);
 		
 		a.setBarchartSeries(barSeries);
