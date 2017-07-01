@@ -21,8 +21,7 @@ public class Beolvas {
 		double ARsum = 0;
 		int count = 0;
 		double Vsum = 0;
-		//ArrayList<Double> arrlist1 = new ArrayList<>(); //Area
-		//ArrayList<Double> arrlist2 = new ArrayList<>(); //Aspect Ratio
+		
 
 		while((line = br.readLine()) != null){
 			String[] b = line.split(splitBy);
@@ -32,9 +31,6 @@ public class Beolvas {
 			//System.out.println(array[1]);
 
 
-			//a grafikonokhoz lehet arraylist kéne, azért hagytam itt
-			//arrlist1.add((double) Math.round(Math.sqrt(4*array[1]/Math.PI)));
-			//arrlist2.add(array[10]);
 
 			d = Math.sqrt(4*array[1]/Math.PI);
 			dsum += d;
@@ -44,21 +40,17 @@ public class Beolvas {
 			double V = 4.0*Math.PI*Math.pow(d/2, 3)/3;
 			Vsum += V;
 			ip.addItem(V);
+			
 		}
 
 
 		br.close();
 
-		/*
-		System.out.println(dsum);
-		System.out.println("count = " + count);
-		System.out.println(ARsum);
-		 */
 		double davg = dsum/count;
 		double ARavg = ARsum/count;
-
-		ta1.appendText(String.format("%.1f\n", davg));
-		ta2.appendText(String.format("%.2f\n", ARavg));
+		
+		ta1.appendText(String.format("\n%.1f", davg));
+		ta2.appendText(String.format("\n%.2f", ARavg));
 
 
 		//Osszes.arff-et üressé teszi

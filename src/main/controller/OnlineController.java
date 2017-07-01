@@ -2,6 +2,7 @@ package main.controller;
 
 import java.awt.Label;
 import javafx.fxml.FXML;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -20,9 +21,11 @@ public class OnlineController {
 	@FXML
 	TextArea ta1, ta2;
 	@FXML
-	NumberAxis xAxis, yAxis;
+	NumberAxis yAxis;
 	@FXML
-	LineChart<Number, Number> lineChart;
+	CategoryAxis xAxis;
+	@FXML
+	LineChart<String, Number> lineChart;
 	
 	public void trigger() {
 		XYChart.Series series10 = new XYChart.Series();
@@ -36,10 +39,12 @@ public class OnlineController {
 		lineChart.getData().add(series50);
 		lineChart.getData().add(series90);
 		lineChart.setCreateSymbols(false);
+		/*
 		xAxis.setAutoRanging(false);
 	    xAxis.setLowerBound(0);
 	    xAxis.setUpperBound(120);
-		AnalyzeHandler a = new AnalyzeHandler("/Users/istvanhoffer/Develop/Analize/kepek");
+	    */
+		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
 		a.setImageView(img);
 		a.setTextArea(ta1, ta2);
 		a.setSeries(series10, series50, series90);
