@@ -1,18 +1,25 @@
 package main.controller;
 
 import java.awt.Label;
+import com.fazecast.jSerialComm.SerialPort;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import main.AnalyzeHandler;
+import main.util.Arduino;
 
-public class OnlineController {
+
+public class OnlineController extends Parent{
 	@FXML
 	Label labeld;
 	@FXML
@@ -29,19 +36,60 @@ public class OnlineController {
 	LineChart<String, Number> lineChart;
 	@FXML
 	BarChart<String, Number> barChart;
-	
+	@FXML
+	Slider slider;
+	@FXML
+	ComboBox<String> comboBox;
+	@FXML
+	Button connectButton;
+	static SerialPort chosenPort;
+
+	//Sliderclicknél értéket váltson
+	public void setSliderVal(){
+		double a = slider.getValue();
+		if (a == 0) {
+			slider.setValue(1);
+		}
+		else {
+			slider.setValue(0);
+		}
+	}
+
+	//Manual vagy Automata szabályozás eldöntése
+	public void getSliderVal(){
+
+	}
+
+	public static SerialPort getChosenPort() {
+		return chosenPort;
+	}
+
 	public void trigger() {
-		
 		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
 		//AnalyzeHandler a = new AnalyzeHandler("/Users/istvanhoffer/Desktop/images");
 		a.setImageView(img);
 		a.setTextArea(ta1, ta2);
 		setupLinechart(a);
 		setupBarchart(a);
+		comboBox.setItems(Arduino.getPortList());
 		Thread t = new Thread(a);
-		t.start();	
+		t.start();
 	}
-	
+
+	public void connect() {
+		chosenPort = SerialPort.getCommPort(comboBox.getValue());
+		chosenPort.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
+		if(chosenPort.openPort()) {
+			connectButton.setText("Disconnect");
+			comboBox.setDisable(true);
+		}
+		else {
+			chosenPort.closePort();
+			comboBox.setDisable(false);
+			connectButton.setText("Connect");
+		}
+	}
+
 	private void setupLinechart(AnalyzeHandler a){
 		XYChart.Series<String, Number> series10 = new XYChart.Series<>();
 		series10.setName("Dv10");
@@ -49,21 +97,21 @@ public class OnlineController {
 		series50.setName("Dv50");
 		XYChart.Series<String, Number> series90 = new XYChart.Series<>();
 		series90.setName("Dv90");
-		
+
 		lineChart.getData().add(series10);
 		lineChart.getData().add(series50);
 		lineChart.getData().add(series90);
 		lineChart.setCreateSymbols(false);
 		a.setLinechartSeries(series10, series50, series90);
 	}
-	
+
 	private void setupBarchart(AnalyzeHandler a){
 		XYChart.Series<String, Number> barSeries = new XYChart.Series<>();
 		barSeries.setName("Bar Chart");
 		barChart.setAnimated(false);
 		barChart.setLegendVisible(false);
 		barChart.getData().add(barSeries);
-		
+
 		a.setBarchartSeries(barSeries);
 	}
 }

@@ -10,12 +10,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.TextFlow;
+import main.util.Arduino;
 import main.util.IntervalLoop;
 
 public class AnalyzeHandler implements Runnable {
 	private final double DMIN = 0.01;
 	private final double DMAX = 10000;
-	private final double NKEP = 3;
+	private final double NKEP = 10;
 	
 	private boolean tus;
 	private final AnalyzeMode mode;
@@ -73,12 +74,13 @@ public class AnalyzeHandler implements Runnable {
 								IntervalLoop ipClone = ip;
 								Platform.runLater(() -> updateBarchart(ipClone));
 								ip = new IntervalLoop(DMIN, DMAX);
+								Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", ta1, ta2, ip);
+								String timestamp = new SimpleDateFormat("HH:mm:ss").format(new java.util.Date());
+								series10.getData().add(new XYChart.Data(timestamp, ip.getPercentile(10)));
+								series50.getData().add(new XYChart.Data(timestamp, ip.getPercentile(50)));
+								series90.getData().add(new XYChart.Data(timestamp, ip.getPercentile(90)));
+								Arduino.sendData(ip.getPercentile(90));
 							}
-							Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", ta1, ta2, ip);
-							String timestamp = new SimpleDateFormat("HH:mm:ss").format(new java.util.Date());
-							series10.getData().add(new XYChart.Data(timestamp, ip.getPercentile(10)));
-							series50.getData().add(new XYChart.Data(timestamp, ip.getPercentile(50)));
-							series90.getData().add(new XYChart.Data(timestamp, ip.getPercentile(90)));
 							c++;
 						}
 						if(deleteAnalized){

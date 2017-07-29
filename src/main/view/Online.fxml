@@ -5,6 +5,8 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,14 +14,14 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="1063.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.OnlineController">
    <children>
-      <Button layoutX="51.0" layoutY="376.0" mnemonicParsing="false" onAction="#trigger" prefHeight="25.0" prefWidth="155.0" text="Start" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="857.0" AnchorPane.topAnchor="376.0" />
-      <ImageView fx:id="img" fitHeight="303.0" fitWidth="367.0" layoutX="34.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" />
-       <TextArea fx:id="ta2" layoutX="337.0" layoutY="417.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="105.0" />
-      <Text layoutX="219.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Átlagos aspect ratio" />
-      <Text layoutX="242.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Átlagos átmérő" />
+      <Button layoutX="51.0" layoutY="350.0" mnemonicParsing="false" onAction="#trigger" prefHeight="25.0" prefWidth="155.0" text="Start" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="857.0" AnchorPane.topAnchor="350.0" />
+      <ImageView fx:id="img" fitHeight="318.0" fitWidth="403.0" layoutX="29.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
+       <TextArea fx:id="ta2" layoutX="336.0" layoutY="387.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="105.0" />
+      <Text layoutX="218.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Átlagos aspect ratio" />
+      <Text layoutX="241.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Átlagos átmérő" />
       <LineChart fx:id="lineChart" layoutX="432.0" layoutY="36.0" prefHeight="303.0" prefWidth="589.0">
         <xAxis>
-          <CategoryAxis side="BOTTOM" fx:id="lineXAxis" />
+          <CategoryAxis fx:id="lineXAxis" side="BOTTOM" />
         </xAxis>
         <yAxis>
           <NumberAxis fx:id="lineYAxis" side="LEFT" />
@@ -33,9 +35,11 @@
           <NumberAxis fx:id="barYAxis" side="LEFT" />
         </yAxis>
       </BarChart>
-       <TextArea fx:id="ta1" layoutX="337.0" layoutY="380.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="105.0" />
-      <Text layoutX="296.0" layoutY="455.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dv10" />
-      <Text layoutX="296.0" layoutY="484.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dv50" />
-      <Text layoutX="296.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dv90" />
+       <TextArea fx:id="ta1" layoutX="336.0" layoutY="350.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="105.0" />
+      <Button fx:id="connectButton" layoutX="51.0" layoutY="426.0" mnemonicParsing="false" onAction="#connect" prefHeight="25.0" prefWidth="155.0" text="Connect" />
+      <ComboBox fx:id="comboBox" layoutX="51.0" layoutY="387.0" prefHeight="25.0" prefWidth="155.0" />
+      <Slider fx:id="slider" blockIncrement="4.0" layoutX="302.0" layoutY="426.0" majorTickUnit="4.0" max="1.0" minorTickCount="4" onMouseClicked="#setSliderVal" prefHeight="25.0" prefWidth="29.0" snapToTicks="true" />
+      <Text layoutX="251.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manual" />
+      <Text layoutX="349.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Auto" />
    </children>
 </AnchorPane>
