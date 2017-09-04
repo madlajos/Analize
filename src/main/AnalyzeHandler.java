@@ -3,21 +3,24 @@ package main;
 import java.io.File;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.Random;
 
 import javafx.application.Platform;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.TextFlow;
+import main.controller.OnlineController;
 import main.util.Arduino;
 import main.util.IntervalLoop;
 
 public class AnalyzeHandler implements Runnable {
 	private final double DMIN = 0.01;
 	private final double DMAX = 10000;
-	private final double NKEP = 10;
-	
+	private final double NKEP = 1;
+
 	private boolean tus;
 	private final AnalyzeMode mode;
 	private String folderPath;
@@ -25,10 +28,12 @@ public class AnalyzeHandler implements Runnable {
 	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
 	//private String output = "/Users/istvanhoffer/Desktop/Results";
 	ImageView img;
-	TextArea ta1, ta2;
+	TextArea ta1, ta2, ta3;
 	TextFlow tf1;
+	Slider slider, rpmSlider;
 	XYChart.Series series10, series50, series90, barSeries;
 	IntervalLoop ip = new IntervalLoop(DMIN, DMAX);
+
 
 	//online
 	public AnalyzeHandler(String folderPath){
@@ -51,7 +56,7 @@ public class AnalyzeHandler implements Runnable {
 		mode = AnalyzeMode.GRANULALAS;
 	}
 
-	public void analyse() {
+	public double analyse() {
 		File folder = new File(folderPath);
 		int c = 0;
 		while (true){
@@ -79,7 +84,22 @@ public class AnalyzeHandler implements Runnable {
 								series10.getData().add(new XYChart.Data(timestamp, ip.getPercentile(10)));
 								series50.getData().add(new XYChart.Data(timestamp, ip.getPercentile(50)));
 								series90.getData().add(new XYChart.Data(timestamp, ip.getPercentile(90)));
-								Arduino.sendData(ip.getPercentile(90));
+								
+								
+								if (getMode(slider) == 0){
+									System.out.println(getRPM(rpmSlider));
+									Arduino.sendData(getRPM(rpmSlider) * 25);
+								}
+								else{
+									Random rand = new Random();
+									double  n = 255 * (rand.nextDouble());
+									//System.out.println(n * 5 / 255);
+									System.out.printf("A voltmérõn kb %s, voltot kell látni" , n * 5 / 255 );
+									Arduino.sendData(n);
+									//System.out.println(ip.getPercentile(90));
+								}
+							
+								//Arduino.sendData(ip.getPercentile(90));
 							}
 							c++;
 						}
@@ -94,13 +114,26 @@ public class AnalyzeHandler implements Runnable {
 			}
 		}
 	}
+
 	
+	public double getRPM(Slider rpmSlider) {
+		this.rpmSlider = rpmSlider;
+		
+		return rpmSlider.getValue();
+	}
+
+	public double getMode(Slider slider) {
+		this.slider = slider;
+
+		return slider.getValue();
+	}
+
 	private void updateBarchart(IntervalLoop ip){
 		for(int i = 0; i < 100; i++){
 			barSeries.getData().add(new XYChart.Data(new Integer(i).toString(), ip.getIntervalVpercent(i)));
 		}
 	}
-	
+
 	private void sendToAnalize(String path, String filename){
 		AnalyzeImage ai = new AnalyzeImage(mode, path, filename, output, tus);
 		ai.startAnalyze();
@@ -119,13 +152,13 @@ public class AnalyzeHandler implements Runnable {
 	public void run() {
 		analyse();
 	}
-	
+
 	public void setLinechartSeries(XYChart.Series<String, Number> s10, XYChart.Series<String, Number> s50, XYChart.Series<String, Number> s90){
 		this.series10 = s10;
 		this.series50 = s50;
 		this.series90 = s90;
 	}
-	
+
 	public void setBarchartSeries(XYChart.Series<String, Number> barSeries){
 		this.barSeries = barSeries;
 		for(int i = 0; i < 100; i++){

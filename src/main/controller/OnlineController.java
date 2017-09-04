@@ -1,8 +1,11 @@
 package main.controller;
 
 import java.awt.Label;
+import java.io.IOException;
+
 import com.fazecast.jSerialComm.SerialPort;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -15,6 +18,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import main.AnalyzeHandler;
 import main.util.Arduino;
 
@@ -27,7 +32,7 @@ public class OnlineController extends Parent{
 	@FXML
 	CheckBox cb1;
 	@FXML
-	TextArea ta1, ta2;
+	TextArea ta1, ta2, ta3;
 	@FXML
 	NumberAxis lineYAxis, barYAxis;
 	@FXML
@@ -37,43 +42,56 @@ public class OnlineController extends Parent{
 	@FXML
 	BarChart<String, Number> barChart;
 	@FXML
-	Slider slider;
+	Slider slider, rpmSlider;
 	@FXML
 	ComboBox<String> comboBox;
 	@FXML
-	Button connectButton;
+	Button connectButton, startButton;
+	@FXML
+	Text txt1;
 	static SerialPort chosenPort;
 
+	
 	//Sliderclicknél értéket váltson
 	public void setSliderVal(){
-		double a = slider.getValue();
+		int a = (int) (slider.getValue() + 0.2);
 		if (a == 0) {
 			slider.setValue(1);
 		}
 		else {
 			slider.setValue(0);
 		}
+		AnalyzeHandler b = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
+		b.getMode(slider);
+	}
+	
+	public void updateRPM(){
+		
+		//System.out.println(rpmSlider.getValue());
+		AnalyzeHandler c = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
+		c.getRPM(rpmSlider);
+		System.out.println("rpm updatelve");
 	}
 
-	//Manual vagy Automata szabályozás eldöntése
-	public void getSliderVal(){
-
-	}
 
 	public static SerialPort getChosenPort() {
 		return chosenPort;
 	}
 
 	public void trigger() {
+		startButton.setDisable(true);
 		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
 		//AnalyzeHandler a = new AnalyzeHandler("/Users/istvanhoffer/Desktop/images");
 		a.setImageView(img);
 		a.setTextArea(ta1, ta2);
+		a.getMode(slider);
+		a.getRPM(rpmSlider);
 		setupLinechart(a);
 		setupBarchart(a);
 		comboBox.setItems(Arduino.getPortList());
 		Thread t = new Thread(a);
 		t.start();
+		txt1.setText("asd");
 	}
 
 	public void connect() {

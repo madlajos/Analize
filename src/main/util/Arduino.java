@@ -7,6 +7,7 @@ import java.util.Date;
 import com.fazecast.jSerialComm.SerialPort;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import main.AnalyzeHandler;
 import main.controller.OnlineController;
 
 public class Arduino {
@@ -22,7 +23,7 @@ public class Arduino {
 		}
 		else if (portNames.length == 1) {
 			portList = FXCollections.observableArrayList(portNames[0].getSystemPortName());
-			}
+		}
 		else if (portNames.length == 2) {
 			portList = FXCollections.observableArrayList(portNames[0].getSystemPortName(), portNames[1].getSystemPortName());
 		}
@@ -35,17 +36,17 @@ public class Arduino {
 
 		return portList;
 	}
-	
-	public static void sendData(double d90){
+
+	public static void sendData(double n){
 		SerialPort chosenPort = OnlineController.getChosenPort();
 		if (chosenPort != null) {
 			PrintWriter output = new PrintWriter(chosenPort.getOutputStream());
-			System.out.println(d90);
-			output.print(d90);
+			//System.out.println(n);
+			int helo = (int)n;
+			String heloo = (Integer.toString(helo) + "a");
+			System.out.println("Arduinonak kiküldött jel:" + heloo);
+			output.print(heloo);
 			output.flush();
 		}
 	}	
-		
-		
-	
 }
