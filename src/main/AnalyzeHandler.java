@@ -11,6 +11,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import main.controller.OnlineController;
 import main.util.Arduino;
@@ -28,12 +29,12 @@ public class AnalyzeHandler implements Runnable {
 	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
 	//private String output = "/Users/istvanhoffer/Desktop/Results";
 	ImageView img;
-	TextArea ta1, ta2, ta3;
+	Text txt1, txt2, txt3, txt4, txt5;
 	TextFlow tf1;
 	Slider slider, rpmSlider;
 	XYChart.Series series10, series50, series90, barSeries;
 	IntervalLoop ip = new IntervalLoop(DMIN, DMAX);
-
+	double dv10, dv50, dv90;
 
 	//online
 	public AnalyzeHandler(String folderPath){
@@ -79,13 +80,21 @@ public class AnalyzeHandler implements Runnable {
 								IntervalLoop ipClone = ip;
 								Platform.runLater(() -> updateBarchart(ipClone));
 								ip = new IntervalLoop(DMIN, DMAX);
-								Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", ta1, ta2, ip);
+								Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", txt1, txt2, ip);
 								String timestamp = new SimpleDateFormat("HH:mm:ss").format(new java.util.Date());
-								series10.getData().add(new XYChart.Data(timestamp, ip.getPercentile(10)));
-								series50.getData().add(new XYChart.Data(timestamp, ip.getPercentile(50)));
-								series90.getData().add(new XYChart.Data(timestamp, ip.getPercentile(90)));
-								
-								
+
+								dv10 = ip.getPercentile(10);
+								dv50 = ip.getPercentile(50);
+								dv90 = ip.getPercentile(90);
+
+								series10.getData().add(new XYChart.Data(timestamp, dv10));
+								series50.getData().add(new XYChart.Data(timestamp, dv50));
+								series90.getData().add(new XYChart.Data(timestamp, dv90));
+
+								txt3.setText(String.format("%.1f", dv10) + " µm");
+								txt4.setText(String.format("%.1f", dv50) + " µm");
+								txt5.setText(String.format("%.1f", dv90) + " µm");
+
 								if (getMode(slider) == 0){
 									System.out.println(getRPM(rpmSlider));
 									Arduino.sendData(getRPM(rpmSlider) * 25);
@@ -98,7 +107,7 @@ public class AnalyzeHandler implements Runnable {
 									Arduino.sendData(n);
 									//System.out.println(ip.getPercentile(90));
 								}
-							
+
 								//Arduino.sendData(ip.getPercentile(90));
 							}
 							c++;
@@ -115,10 +124,10 @@ public class AnalyzeHandler implements Runnable {
 		}
 	}
 
-	
+
 	public double getRPM(Slider rpmSlider) {
 		this.rpmSlider = rpmSlider;
-		
+
 		return rpmSlider.getValue();
 	}
 
@@ -143,9 +152,12 @@ public class AnalyzeHandler implements Runnable {
 		this.img = img;
 	}
 
-	public void setTextArea(TextArea ta1, TextArea ta2){
-		this.ta1 = ta1;
-		this.ta2 = ta2;
+	public void setTextArea(Text txt1, Text txt2, Text txt3, Text txt4, Text txt5){
+		this.txt1 = txt1;
+		this.txt2 = txt2;
+		this.txt3 = txt3;
+		this.txt4 = txt4;
+		this.txt5 = txt5;
 	}
 
 	@Override

@@ -7,28 +7,28 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1266.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.OnlineController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="745.0" prefWidth="1325.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.OnlineController">
    <children>
-      <Button fx:id="startButton" layoutX="51.0" layoutY="350.0" mnemonicParsing="false" onAction="#trigger" prefHeight="25.0" prefWidth="155.0" text="Start" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="963.0" AnchorPane.topAnchor="350.0" />
-      <ImageView fx:id="img" fitHeight="318.0" fitWidth="403.0" layoutX="29.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
-       <TextArea fx:id="ta2" editable="false" layoutX="501.0" layoutY="537.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="105.0" />
-      <Text layoutX="443.0" layoutY="554.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. AR" />
-      <Text layoutX="411.0" layoutY="519.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. diameter" />
-      <LineChart fx:id="lineChart" layoutX="606.0" layoutY="21.0" prefHeight="342.0" prefWidth="646.0">
+      <Button fx:id="startButton" layoutX="171.0" layoutY="510.0" mnemonicParsing="false" onAction="#trigger" prefHeight="25.0" prefWidth="87.0" text="Start" AnchorPane.leftAnchor="171.0" AnchorPane.rightAnchor="1008.0" AnchorPane.topAnchor="510.0" />
+      <ImageView fx:id="img" fitHeight="375.0" fitWidth="500.0" layoutX="21.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="262.0" layoutX="544.0" layoutY="432.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="118.0" />
+      <Text layoutX="553.0" layoutY="552.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. AR:" />
+      <Text layoutX="559.0" layoutY="526.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. D:" />
+      <LineChart fx:id="lineChart" layoutX="544.0" layoutY="26.0" prefHeight="376.0" prefWidth="761.0" styleClass="chart-series-line" stylesheets="@Online.css">
         <xAxis>
-          <CategoryAxis fx:id="lineXAxis" side="BOTTOM" />
+          <CategoryAxis fx:id="lineXAxis" prefHeight="10.0" prefWidth="724.0" side="BOTTOM" />
         </xAxis>
         <yAxis>
           <NumberAxis fx:id="lineYAxis" side="LEFT" />
         </yAxis>
       </LineChart>
-      <BarChart fx:id="barChart" layoutX="606.0" layoutY="364.0" prefHeight="256.0" prefWidth="646.0">
+      <BarChart fx:id="barChart" layoutX="675.0" layoutY="432.0" prefHeight="262.0" prefWidth="630.0" styleClass="chart-series-line" stylesheets="@Online.css">
         <xAxis>
           <CategoryAxis fx:id="barXAxis" side="BOTTOM" />
         </xAxis>
@@ -36,20 +36,23 @@
           <NumberAxis fx:id="barYAxis" side="LEFT" />
         </yAxis>
       </BarChart>
-       <TextArea fx:id="ta1" editable="false" layoutX="501.0" layoutY="502.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="105.0" />
-      <Button fx:id="connectButton" layoutX="216.0" layoutY="395.0" mnemonicParsing="false" onAction="#connect" prefHeight="25.0" prefWidth="74.0" text="Connect" />
-      <ComboBox fx:id="comboBox" layoutX="119.0" layoutY="395.0" prefHeight="25.0" prefWidth="87.0" promptText="Port List" />
-      <Slider fx:id="slider" blockIncrement="4.0" layoutX="231.0" layoutY="443.0" majorTickUnit="4.0" max="1.0" minorTickCount="4" onMouseClicked="#setSliderVal" prefHeight="25.0" prefWidth="54.0" snapToTicks="true" />
-      <Text layoutX="180.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manual" />
-      <Text layoutX="315.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Auto" />
-      <Text layoutX="29.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fordulatszám:" />
-      <Slider fx:id="rpmSlider" blockIncrement="0.0" layoutX="119.0" layoutY="494.0" majorTickUnit="1.0" max="10.0" minorTickCount="2" onMouseClicked="#updateRPM" prefHeight="38.0" prefWidth="148.0" showTickLabels="true" showTickMarks="true" value="2.0" />
-      <TextArea fx:id="ta3" layoutX="288.0" layoutY="488.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="54.0" />
-      <Text layoutX="411.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. diameter" />
-      <TextArea fx:id="ta11" editable="false" layoutX="501.0" layoutY="375.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="105.0" />
-      <Text layoutX="411.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. diameter" />
-      <TextArea fx:id="ta12" editable="false" layoutX="501.0" layoutY="408.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="105.0" />
+      <Button fx:id="connectButton" layoutX="284.0" layoutY="474.0" mnemonicParsing="false" onAction="#connect" prefHeight="25.0" prefWidth="87.0" text="Connect" />
+      <ComboBox fx:id="comboBox" layoutX="171.0" layoutY="474.0" prefHeight="25.0" prefWidth="87.0" promptText="Port List" />
+      <Slider fx:id="slider" blockIncrement="4.0" layoutX="185.0" layoutY="551.0" majorTickUnit="4.0" max="1.0" minorTickCount="4" onMouseClicked="#setSliderVal" prefHeight="25.0" prefWidth="54.0" snapToTicks="true" />
+      <Text layoutX="134.0" layoutY="568.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manual" />
+      <Text layoutX="269.0" layoutY="568.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Auto" />
+      <Text fx:id="rpmTxt1" disable="true" layoutX="74.0" layoutY="596.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="RPM:" />
+      <Slider fx:id="rpmSlider" blockIncrement="0.0" layoutX="110.0" layoutY="582.0" majorTickUnit="1.0" max="10.0" minorTickCount="2" onMouseClicked="#updateRPM" prefHeight="38.0" prefWidth="241.0" showTickLabels="true" showTickMarks="true" value="2.0" />
+      <Text layoutX="567.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dv10:" />
+      <Text layoutX="567.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dv50:" />
       <TextFlow fx:id="tf1" layoutX="293.0" layoutY="255.0" prefHeight="25.0" prefWidth="74.0" />
-      <Text fx:id="txt1" layoutX="522.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="helo" />
+      <Text fx:id="txt1" layoutX="602.0" layoutY="526.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="txt2" layoutX="602.0" layoutY="552.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text layoutX="567.0" layoutY="501.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dv90:" />
+      <Text fx:id="txt3" layoutX="602.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="txt4" layoutX="602.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="txt5" layoutX="602.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button fx:id="searchButton" layoutX="67.0" layoutY="475.0" mnemonicParsing="false" onAction="#searchPorts" prefHeight="25.0" prefWidth="87.0" text="Search" />
+      <Text fx:id="rpmTxt" layoutX="374.0" layoutY="593.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2,00" />
    </children>
 </AnchorPane>

@@ -36,8 +36,10 @@ public class MainController {
         
 		Stage stage = (Stage) online.getScene().getWindow();
 	    // these two of them return the same stage
-	    // Swap screen
+		scene.getStylesheets().add("main/view/Online.css");
+		// Swap screen
 	    stage.setScene(scene);
+	    
 	}
 	
 	@FXML

@@ -5,13 +5,14 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 
 import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
 import main.util.IntervalLoop;
 
 
 public class Beolvas {
 
 	String folderPath;
-	public static void adatbeolvasas (String folderPath, String filePath, TextArea ta1, TextArea ta2, IntervalLoop ip) throws Exception {
+	public static void adatbeolvasas (String folderPath, String filePath, Text txt1, Text txt2, IntervalLoop ip) throws Exception {
 		String splitBy = ",";
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
 		String line;
@@ -42,8 +43,8 @@ public class Beolvas {
 		double davg = dsum/count;
 		double ARavg = ARsum/count;
 		
-		ta1.appendText(String.format("\n%.1f", davg));
-		ta2.appendText(String.format("\n%.2f", ARavg));
+		txt1.setText(String.format("%.1f", davg) + " µm");
+		txt2.setText(String.format("%.2f", ARavg));
 
 		//Clear Osszes.arff
 		PrintWriter pw = new PrintWriter(filePath);

@@ -18,6 +18,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import main.AnalyzeHandler;
@@ -48,29 +49,39 @@ public class OnlineController extends Parent{
 	@FXML
 	Button connectButton, startButton;
 	@FXML
-	Text txt1;
+	Text txt1, txt2, txt3, txt4, txt5, rpmTxt, rpmTxt1;
 	static SerialPort chosenPort;
+	static double dv10;
+	static double dv50;
+	static double dv90;
+	
 
+	
+	
 	
 	//Sliderclicknél értéket váltson
 	public void setSliderVal(){
 		int a = (int) (slider.getValue() + 0.2);
 		if (a == 0) {
 			slider.setValue(1);
+			rpmSlider.setDisable(true);
+			rpmTxt.setFill(Color.DARKGRAY);
+			rpmTxt1.setFill(Color.DARKGRAY);
 		}
 		else {
 			slider.setValue(0);
+			rpmSlider.setDisable(false);
+			rpmTxt.setFill(Color.BLACK);
+			rpmTxt1.setFill(Color.BLACK);
 		}
 		AnalyzeHandler b = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
 		b.getMode(slider);
 	}
 	
 	public void updateRPM(){
-		
-		//System.out.println(rpmSlider.getValue());
 		AnalyzeHandler c = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
 		c.getRPM(rpmSlider);
-		System.out.println("rpm updatelve");
+		rpmTxt.setText(String.format("%.2f", c.getRPM(rpmSlider)));
 	}
 
 
@@ -83,15 +94,13 @@ public class OnlineController extends Parent{
 		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
 		//AnalyzeHandler a = new AnalyzeHandler("/Users/istvanhoffer/Desktop/images");
 		a.setImageView(img);
-		a.setTextArea(ta1, ta2);
+		a.setTextArea(txt1, txt2, txt3, txt4, txt5);
 		a.getMode(slider);
 		a.getRPM(rpmSlider);
 		setupLinechart(a);
 		setupBarchart(a);
-		comboBox.setItems(Arduino.getPortList());
 		Thread t = new Thread(a);
 		t.start();
-		txt1.setText("asd");
 	}
 
 	public void connect() {
@@ -107,6 +116,10 @@ public class OnlineController extends Parent{
 			connectButton.setText("Connect");
 		}
 	}
+	
+	public void searchPorts(){
+		comboBox.setItems(Arduino.getPortList());
+	}
 
 	private void setupLinechart(AnalyzeHandler a){
 		XYChart.Series<String, Number> series10 = new XYChart.Series<>();
@@ -115,7 +128,8 @@ public class OnlineController extends Parent{
 		series50.setName("Dv50");
 		XYChart.Series<String, Number> series90 = new XYChart.Series<>();
 		series90.setName("Dv90");
-
+	
+		
 		lineChart.getData().add(series10);
 		lineChart.getData().add(series50);
 		lineChart.getData().add(series90);
@@ -129,7 +143,6 @@ public class OnlineController extends Parent{
 		barChart.setAnimated(false);
 		barChart.setLegendVisible(false);
 		barChart.getData().add(barSeries);
-
 		a.setBarchartSeries(barSeries);
 	}
 }
