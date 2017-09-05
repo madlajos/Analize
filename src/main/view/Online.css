@@ -22,3 +22,94 @@
 .chart-plot-background {
     -fx-background-color: transparent;
 }
+
+.chart {
+-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 4.0375, 0.13, 1.0, 1.0);
+}
+
+.button {
+    -fx-background-color: 
+        #c3c4c4,
+        linear-gradient(#d6d6d6 50%, white 100%),
+        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+.button:hover{
+	-fx-background-color: 
+        #c4c4c4,
+        linear-gradient(#c4c4c4 50%, white 100%),
+        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+.button:pressed{
+	-fx-background-color: 
+        #c3c4c4,
+        linear-gradient(#c3c4c4 50%, white 100%),
+        radial-gradient(center 50% -40%, radius 200%, #c3c4c4 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 60;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6) , 7, 0.0 , 0 , 1 );
+}
+
+.comboBox {
+    -fx-background-color: 
+        #c3c4c4,
+        linear-gradient(#d6d6d6 50%, white 100%),
+        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+.comboBox:hover{
+	-fx-background-color: 
+        #c4c4c4,
+        linear-gradient(#c4c4c4 50%, white 100%),
+        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+.comboBox:pressed{
+	-fx-background-color: 
+        #c3c4c4,
+        linear-gradient(#c3c4c4 50%, white 100%),
+        radial-gradient(center 50% -40%, radius 200%, #c3c4c4 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 60;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6) , 7, 0.0 , 0 , 1 );
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: lightblue, -fx-control-inner-background;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0) , 8, 0.0 , 0 , 0 );
+}
+
+.combo-box-popup .list-view .list-cell:hover{
+    -fx-background: -fx-accent;
+    -fx-background-color: lightblue;
+    -fx-text-fill: black;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected{
+    -fx-background-color: #55c4fe;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected:hover {
+    -fx-background-color: #6dcdff;
+}
+
+

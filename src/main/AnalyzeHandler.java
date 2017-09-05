@@ -8,12 +8,10 @@ import java.util.Random;
 import javafx.application.Platform;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import main.controller.OnlineController;
 import main.util.Arduino;
 import main.util.IntervalLoop;
 

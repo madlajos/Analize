@@ -3,8 +3,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.Arrays;
-
-import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import main.util.IntervalLoop;
 

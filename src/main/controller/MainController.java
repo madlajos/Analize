@@ -35,10 +35,13 @@ public class MainController {
         Scene scene = new Scene(rootLayout);
         
 		Stage stage = (Stage) online.getScene().getWindow();
-	    // these two of them return the same stage
+		stage.setX((1920 - 1325) / 2);
+        stage.setY((1080 - 745) / 2);
+		// these two of them return the same stage
 		scene.getStylesheets().add("main/view/Online.css");
 		// Swap screen
-	    stage.setScene(scene);
+
+		stage.setScene(scene);
 	    
 	}
 	

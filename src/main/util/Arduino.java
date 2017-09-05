@@ -1,18 +1,13 @@
 package main.util;
 
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.fazecast.jSerialComm.SerialPort;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.AnalyzeHandler;
 import main.controller.OnlineController;
 
 public class Arduino {
-
-
+	
 	public static ObservableList<String> getPortList(){
 
 		SerialPort[] portNames = SerialPort.getCommPorts();
