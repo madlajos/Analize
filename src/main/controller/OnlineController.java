@@ -38,7 +38,7 @@ public class OnlineController extends Parent{
 	Text txt1, txt2, txt3, txt4, txt5, rpmTxt, rpmTxt1;
 	static SerialPort chosenPort;
 
-	//SliderclicknÈl ÈrtÈket v·ltson
+	//Sliderclickn√©l √©rt√©ket v√°ltson
 	public void setSliderVal(){
 		int a = (int) (slider.getValue() + 0.2);
 		if (a == 0) {
@@ -107,8 +107,6 @@ public class OnlineController extends Parent{
 		series50.setName("Dv50");
 		XYChart.Series<String, Number> series90 = new XYChart.Series<>();
 		series90.setName("Dv90");
-
-
 		lineChart.getData().add(series10);
 		lineChart.getData().add(series50);
 		lineChart.getData().add(series90);
@@ -121,6 +119,8 @@ public class OnlineController extends Parent{
 		barSeries.setName("Bar Chart");
 		barChart.setAnimated(false);
 		barChart.setLegendVisible(false);
+		barXAxis.setLabel("Particle Size (Œºm)");
+		barYAxis.setLabel("Volume (%)");
 		barChart.getData().add(barSeries);
 		a.setBarchartSeries(barSeries);
 	}

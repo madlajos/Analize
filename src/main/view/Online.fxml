@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
@@ -40,13 +41,17 @@
             <DropShadow color="#6b6767" height="6.05" offsetX="1.0" offsetY="1.0" radius="4.0375" spread="0.13" width="12.1" />
          </effect>
       </LineChart>
-      <BarChart fx:id="barChart" layoutX="675.0" layoutY="432.0" prefHeight="262.0" prefWidth="630.0" styleClass="chart-series-line" stylesheets="@Online.css">
+      <BarChart fx:id="barChart" layoutX="675.0" layoutY="432.0" prefHeight="262.0" prefWidth="630.0" stylesheets="@Online.css">
         <xAxis>
           <CategoryAxis fx:id="barXAxis" side="BOTTOM" />
         </xAxis>
         <yAxis>
           <NumberAxis fx:id="barYAxis" side="LEFT" />
         </yAxis>
+         <styleClass>
+            <String fx:value="chart-series-line" />
+            <String fx:value="barChart" />
+         </styleClass>
       </BarChart>
       <Button fx:id="connectButton" layoutX="309.0" layoutY="466.0" mnemonicParsing="false" onAction="#connect" prefHeight="25.0" prefWidth="90.0" stylesheets="@Online.css" text="Connect" />
       <ComboBox fx:id="comboBox" layoutX="199.0" layoutY="465.0" prefHeight="28.0" prefWidth="90.0" promptText="Port List" styleClass="comboBox" stylesheets="@Online.css" />

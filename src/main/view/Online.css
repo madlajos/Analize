@@ -8,14 +8,15 @@
 .default-color0.chart-series-line { -fx-stroke: #e9967a; }
 .default-color1.chart-series-line { -fx-stroke: #ff9900; }
 .default-color2.chart-series-line { -fx-stroke: #dda0dd; }
- 
 .default-color0.chart-line-symbol { -fx-background-color: #e9967a, white; }
 .default-color1.chart-line-symbol { -fx-background-color: #ff9900, white; }
 .default-color2.chart-line-symbol { -fx-background-color: #dda0dd, white; }
 
+.default-color0.chart-bar { -fx-bar-fill: #6ba2f9; }
+
 .chart-legend {
    -fx-background-color:  transparent;
-   -fx-translate-y: -321;
+   -fx-translate-y: -331;
    -fx-translate-x: 300;
 }
 
@@ -26,6 +27,13 @@
 .chart {
 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 4.0375, 0.13, 1.0, 1.0);
 }
+
+.barChart{
+	-fx-bar-gap: 0;
+	-fx-category-gap: 1;
+	}
+
+
 
 .button {
     -fx-background-color: 

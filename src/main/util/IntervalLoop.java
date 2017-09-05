@@ -8,15 +8,15 @@ public class IntervalLoop {
 	final double dmin;
 	final double dmax;
 	final double q;
-	int[] cardinalityVector = new int[100];
-	double[] volumeVector = new double[100];
+	int[] cardinalityVector = new int[50];
+	double[] volumeVector = new double[50];
 	ArrayList<Double> items = new ArrayList<>();
 	double totalV = 0.0;
 	
 	public IntervalLoop(double dmin, double dmax){
 		this.dmin = dmin;
 		this.dmax = dmax;
-		this.q = Math.pow(dmax/dmin, 1.0/100);
+		this.q = Math.pow(dmax/dmin, 1.0/50);
 	}
 	
 	public void addItem(double val){
@@ -56,7 +56,7 @@ public class IntervalLoop {
 		if(totalV == 0.0){
 			return 0;
 		}
-		return intervalV / totalV * 100;
+		return intervalV / totalV * 50;
 	}
 	
 	public double getPercentile(double p){
@@ -75,7 +75,7 @@ public class IntervalLoop {
 	
 	public double getSum(){
 		double sum = 0;
-		for(int i = 0; i < 100; i++){
+		for(int i = 0; i < 50; i++){
 			sum += volumeVector[i];
 		}
 		return sum;

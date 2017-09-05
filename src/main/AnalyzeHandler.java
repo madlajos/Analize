@@ -1,6 +1,8 @@
 package main;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Random;
@@ -16,9 +18,9 @@ import main.util.Arduino;
 import main.util.IntervalLoop;
 
 public class AnalyzeHandler implements Runnable {
-	private final double DMIN = 0.01;
-	private final double DMAX = 10000;
-	private final double NKEP = 1;
+	private final double DMIN = 10;
+	private final double DMAX = 80;
+	private final double NKEP = 4;
 
 	private boolean tus;
 	private final AnalyzeMode mode;
@@ -136,9 +138,18 @@ public class AnalyzeHandler implements Runnable {
 	}
 
 	private void updateBarchart(IntervalLoop ip){
-		for(int i = 0; i < 100; i++){
-			barSeries.getData().add(new XYChart.Data(new Integer(i).toString(), ip.getIntervalVpercent(i)));
+		for(int i = 0; i < 50; i++){
+			double d = round(Math.pow(Math.pow(DMAX/DMIN, 1.0/50), i)*DMIN, 2);
+			barSeries.getData().add(new XYChart.Data(new Double(d).toString(), ip.getIntervalVpercent(i)));
 		}
+	}
+
+	public static double round(double value, int places) {
+		if (places < 0) throw new IllegalArgumentException();
+
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
 	}
 
 	private void sendToAnalize(String path, String filename){
@@ -171,8 +182,9 @@ public class AnalyzeHandler implements Runnable {
 
 	public void setBarchartSeries(XYChart.Series<String, Number> barSeries){
 		this.barSeries = barSeries;
-		for(int i = 0; i < 100; i++){
-			this.barSeries.getData().add(new XYChart.Data(new Integer(i).toString(), 0));
+		for(int i = 0; i < 50; i++){
+			double d = round(Math.pow(Math.pow(DMAX/DMIN, 1.0/50), i)*DMIN, 2);
+			this.barSeries.getData().add(new XYChart.Data(new Double(d).toString(), 0));
 		}
 	}
 }
