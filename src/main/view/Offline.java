@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.controller.OfflineController;
@@ -38,6 +39,9 @@ public class Offline extends Application {
 			// Swap screen
 			((OfflineController) loader.getController()).setStage(stage);
 			stage.setScene(scene);
+			stage.setTitle("Offline Image Analysis");
+			Image icon = new Image("file:C://Users//madla//OneDrive//Documents//GitHub//Analize//src//main//view//icon2.jpg");
+            stage.getIcons().add(icon);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

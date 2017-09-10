@@ -5,7 +5,6 @@ import com.fazecast.jSerialComm.SerialPort;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.controller.OnlineController;
-
 public class Arduino {
 	
 	public static ObservableList<String> getPortList(){
@@ -36,7 +35,6 @@ public class Arduino {
 		SerialPort chosenPort = OnlineController.getChosenPort();
 		if (chosenPort != null) {
 			PrintWriter output = new PrintWriter(chosenPort.getOutputStream());
-			//System.out.println(n);
 			int helo = (int)n;
 			String heloo = (Integer.toString(helo) + "a");
 			System.out.println("Arduinonak kiküldött jel:" + heloo);

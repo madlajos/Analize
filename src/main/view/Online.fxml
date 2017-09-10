@@ -71,5 +71,9 @@
       <Text fx:id="txt5" layoutX="602.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Button fx:id="searchButton" layoutX="89.0" layoutY="466.0" mnemonicParsing="false" onAction="#searchPorts" prefHeight="25.0" prefWidth="90.0" stylesheets="@Online.css" text="Search" />
       <Text fx:id="rpmTxt" layoutX="413.0" layoutY="584.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2,00" />
+      <Text fx:id="autotext1" fill="#a4a4a4" layoutX="188.0" layoutY="637.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Dv50:" />
+      <Text fx:id="Dv50text" layoutX="263.0" layoutY="637.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="autotext2" fill="#a1a1a1" layoutX="188.0" layoutY="665.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RPM:" />
+      <Text fx:id="RPMtext" layoutX="263.0" layoutY="665.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
 </AnchorPane>

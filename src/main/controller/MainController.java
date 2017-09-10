@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.view.MainApp;
@@ -42,6 +43,8 @@ public class MainController {
 		// Swap screen
 
 		stage.setScene(scene);
+		stage.setTitle("Online Image Analysis");
+		//stage.getIcons().add(new Image("C:\\Users\\madla\\OneDrive\\Documents\\GitHub\\Analize\\src\\main\\view\\icon.bmp"));
 	    
 	}
 	

@@ -1,12 +1,17 @@
 package main;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Random;
-
 import javafx.application.Platform;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Slider;
@@ -20,16 +25,17 @@ import main.util.IntervalLoop;
 public class AnalyzeHandler implements Runnable {
 	private final double DMIN = 10;
 	private final double DMAX = 80;
-	private final double NKEP = 4;
+	private final double NKEP = 1;
 
 	private boolean tus;
 	private final AnalyzeMode mode;
 	private String folderPath;
-	private boolean deleteAnalized = false;
+	private boolean deleteAnalized = true;
 	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
+
 	//private String output = "/Users/istvanhoffer/Desktop/Results";
 	ImageView img;
-	Text txt1, txt2, txt3, txt4, txt5;
+	Text txt1, txt2, txt3, txt4, txt5, RPMtext;
 	TextFlow tf1;
 	Slider slider, rpmSlider;
 	XYChart.Series series10, series50, series90, barSeries;
@@ -57,7 +63,7 @@ public class AnalyzeHandler implements Runnable {
 		mode = AnalyzeMode.GRANULALAS;
 	}
 
-	public double analyse() {
+	public double analyse() throws IOException {
 		File folder = new File(folderPath);
 		int c = 0;
 		while (true){
@@ -65,6 +71,7 @@ public class AnalyzeHandler implements Runnable {
 			for (int i = 0; i < listOfFiles.length; i++) {
 				if (listOfFiles[i].isFile()) {
 					String path = folderPath + File.separator + listOfFiles[i].getName();
+
 					if(!path.matches("(.*)\\.jpg")){
 						continue;
 					}
@@ -87,104 +94,131 @@ public class AnalyzeHandler implements Runnable {
 								dv50 = ip.getPercentile(50);
 								dv90 = ip.getPercentile(90);
 
-								series10.getData().add(new XYChart.Data(timestamp, dv10));
-								series50.getData().add(new XYChart.Data(timestamp, dv50));
-								series90.getData().add(new XYChart.Data(timestamp, dv90));
+								if(dv90 > 0) {
+									series10.getData().add(new XYChart.Data(timestamp, dv10));
+									series50.getData().add(new XYChart.Data(timestamp, dv50));
+									series90.getData().add(new XYChart.Data(timestamp, dv90));	
+								}
 
 								txt3.setText(String.format("%.1f", dv10) + " µm");
 								txt4.setText(String.format("%.1f", dv50) + " µm");
 								txt5.setText(String.format("%.1f", dv90) + " µm");
 
-								if (getMode(slider) == 0){
-									System.out.println(getRPM(rpmSlider));
-									Arduino.sendData(getRPM(rpmSlider) * 25);
-								}
-								else{
-									Random rand = new Random();
-									double  n = 255 * (rand.nextDouble());
-									//System.out.println(n * 5 / 255);
-									System.out.printf("A voltmérõn kb %s, voltot kell látni" , n * 5 / 255 );
-									Arduino.sendData(n);
-									//System.out.println(ip.getPercentile(90));
-								}
+								Random rand = new Random();
+								double  n = 255 * (rand.nextDouble());
+								double ntoRPM = round(n * 5 / 255, 2);
 
-								//Arduino.sendData(ip.getPercentile(90));
+								//Ha már megvan a P szabályozó, ezt áthelyezni
+								File log = new File("C:\\Users\\madla\\Google Drive\\TDK\\Java\\log.txt");
+								try{
+									PrintWriter out = new PrintWriter(new FileWriter(log, true));
+									
+									if (getMode(slider) == 0){
+										out.append(timestamp + "\t" + round(getRPM(rpmSlider), 2) + "\t" + round(dv10, 2) + "\t" + round(dv50, 2) + "\t" + round(dv90,2) + "\r\n");
+									} else {
+										out.append(timestamp + "\t" + ntoRPM + "\t" + round(dv10, 2) + "\t" + round(dv50, 2) + "\t" + round(dv90,2) + "\r\n");
+									}
+								
+								out.close();
+								
+							}catch(IOException e){
+								System.out.println("COULD NOT LOG!!");
 							}
-							c++;
+
+							if (getMode(slider) == 0){
+								Arduino.sendData(getRPM(rpmSlider) * 25);
+							}
+							else{
+								System.out.printf("A voltmérõn kb %s, voltot kell látni" , ntoRPM );
+								Arduino.sendData(n);
+								RPMtext.setText(String.format("%.2f", ntoRPM));
+							}
 						}
-						if(deleteAnalized){
-							Files.delete(listOfFiles[i].toPath());
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-						System.out.println(e.getMessage());
+						c++;				
 					}
+					if(deleteAnalized){
+						Path from = Paths.get(folderPath + File.separator + listOfFiles[i].getName());
+						Path to = Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\athelyezve\\" + listOfFiles[i].getName() );
+						Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+
+						Files.delete(listOfFiles[i].toPath());
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 			}
 		}
 	}
+}
 
 
-	public double getRPM(Slider rpmSlider) {
-		this.rpmSlider = rpmSlider;
+public double getRPM(Slider rpmSlider) {
+	this.rpmSlider = rpmSlider;
 
-		return rpmSlider.getValue();
+	return rpmSlider.getValue();
+}
+
+public double getMode(Slider slider) {
+	this.slider = slider;
+
+	return slider.getValue();
+}
+
+private void updateBarchart(IntervalLoop ip){
+	for(int i = 0; i < 50; i++){
+		double d = round(Math.pow(Math.pow(DMAX/DMIN, 1.0/50), i)*DMIN, 2);
+		barSeries.getData().add(new XYChart.Data(new Double(d).toString(), ip.getIntervalVpercent(i)));
 	}
+}
 
-	public double getMode(Slider slider) {
-		this.slider = slider;
+public static double round(double value, int places) {
+	if (places < 0) throw new IllegalArgumentException();
 
-		return slider.getValue();
-	}
+	BigDecimal bd = new BigDecimal(value);
+	bd = bd.setScale(places, RoundingMode.HALF_UP);
+	return bd.doubleValue();
+}
 
-	private void updateBarchart(IntervalLoop ip){
-		for(int i = 0; i < 50; i++){
-			double d = round(Math.pow(Math.pow(DMAX/DMIN, 1.0/50), i)*DMIN, 2);
-			barSeries.getData().add(new XYChart.Data(new Double(d).toString(), ip.getIntervalVpercent(i)));
-		}
-	}
+private void sendToAnalize(String path, String filename){
+	AnalyzeImage ai = new AnalyzeImage(mode, path, filename, output, tus);
+	ai.startAnalyze();
+}
 
-	public static double round(double value, int places) {
-		if (places < 0) throw new IllegalArgumentException();
+public void setImageView(ImageView img){
+	this.img = img;
+}
 
-		BigDecimal bd = new BigDecimal(value);
-		bd = bd.setScale(places, RoundingMode.HALF_UP);
-		return bd.doubleValue();
-	}
+public void setTextArea(Text txt1, Text txt2, Text txt3, Text txt4, Text txt5, Text RPMtext){
+	this.txt1 = txt1;
+	this.txt2 = txt2;
+	this.txt3 = txt3;
+	this.txt4 = txt4;
+	this.txt5 = txt5;
+	this.RPMtext = RPMtext;
+}
 
-	private void sendToAnalize(String path, String filename){
-		AnalyzeImage ai = new AnalyzeImage(mode, path, filename, output, tus);
-		ai.startAnalyze();
-	}
-
-	public void setImageView(ImageView img){
-		this.img = img;
-	}
-
-	public void setTextArea(Text txt1, Text txt2, Text txt3, Text txt4, Text txt5){
-		this.txt1 = txt1;
-		this.txt2 = txt2;
-		this.txt3 = txt3;
-		this.txt4 = txt4;
-		this.txt5 = txt5;
-	}
-
-	@Override
-	public void run() {
+@Override
+public void run() {
+	try {
 		analyse();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	}
+}
 
-	public void setLinechartSeries(XYChart.Series<String, Number> s10, XYChart.Series<String, Number> s50, XYChart.Series<String, Number> s90){
-		this.series10 = s10;
-		this.series50 = s50;
-		this.series90 = s90;
-	}
+public void setLinechartSeries(XYChart.Series<String, Number> s10, XYChart.Series<String, Number> s50, XYChart.Series<String, Number> s90){
+	this.series10 = s10;
+	this.series50 = s50;
+	this.series90 = s90;
+}
 
-	public void setBarchartSeries(XYChart.Series<String, Number> barSeries){
-		this.barSeries = barSeries;
-		for(int i = 0; i < 50; i++){
-			double d = round(Math.pow(Math.pow(DMAX/DMIN, 1.0/50), i)*DMIN, 2);
-			this.barSeries.getData().add(new XYChart.Data(new Double(d).toString(), 0));
-		}
+public void setBarchartSeries(XYChart.Series<String, Number> barSeries){
+	this.barSeries = barSeries;
+	for(int i = 0; i < 50; i++){
+		double d = round(Math.pow(Math.pow(DMAX/DMIN, 1.0/50), i)*DMIN, 2);
+		this.barSeries.getData().add(new XYChart.Data(new Double(d).toString(), 0));
 	}
+}
 }

@@ -35,23 +35,34 @@ public class OnlineController extends Parent{
 	@FXML
 	Button connectButton, startButton;
 	@FXML
-	Text txt1, txt2, txt3, txt4, txt5, rpmTxt, rpmTxt1;
+	Text txt1, txt2, txt3, txt4, txt5, rpmTxt, rpmTxt1, Dv50text, autotext1, autotext2, RPMtext;
 	static SerialPort chosenPort;
-
+	String setDv50 = "600 - 800 µm";
 	//Sliderclicknél értéket váltson
 	public void setSliderVal(){
 		int a = (int) (slider.getValue() + 0.2);
 		if (a == 0) {
+			//automatic mode
 			slider.setValue(1);
 			rpmSlider.setDisable(true);
 			rpmTxt.setFill(Color.DARKGRAY);
 			rpmTxt1.setFill(Color.DARKGRAY);
+			Dv50text.setVisible(true);
+			autotext1.setFill(Color.BLACK);
+			Dv50text.setText(setDv50);
+			autotext2.setFill(Color.BLACK);
+			RPMtext.setVisible(true);
 		}
 		else {
+			//manual mode
 			slider.setValue(0);
 			rpmSlider.setDisable(false);
 			rpmTxt.setFill(Color.BLACK);
 			rpmTxt1.setFill(Color.BLACK);
+			Dv50text.setVisible(false);;
+			autotext1.setFill(Color.DARKGRAY);
+			autotext2.setFill(Color.DARKGRAY);
+			RPMtext.setVisible(false);
 		}
 		AnalyzeHandler b = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
 		b.getMode(slider);
@@ -72,7 +83,7 @@ public class OnlineController extends Parent{
 		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
 		//AnalyzeHandler a = new AnalyzeHandler("/Users/istvanhoffer/Desktop/images");
 		a.setImageView(img);
-		a.setTextArea(txt1, txt2, txt3, txt4, txt5);
+		a.setTextArea(txt1, txt2, txt3, txt4, txt5, RPMtext);
 		a.getMode(slider);
 		a.getRPM(rpmSlider);
 		setupLinechart(a);
