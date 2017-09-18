@@ -59,7 +59,7 @@
       <Text layoutX="173.0" layoutY="559.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manual" />
       <Text layoutX="308.0" layoutY="559.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Auto" />
       <Text fx:id="rpmTxt1" disable="true" layoutX="113.0" layoutY="587.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="RPM:" />
-      <Slider fx:id="rpmSlider" blockIncrement="0.0" layoutX="149.0" layoutY="573.0" majorTickUnit="1.0" max="10.0" minorTickCount="2" onMouseClicked="#updateRPM" onMouseDragged="#updateRPM" onMouseEntered="#updateRPM" onMouseExited="#updateRPM" onMouseMoved="#updateRPM" onMousePressed="#updateRPM" onMouseReleased="#updateRPM" prefHeight="38.0" prefWidth="241.0" showTickLabels="true" showTickMarks="true" value="2.0" />
+      <Slider fx:id="rpmSlider" blockIncrement="0.0" layoutX="149.0" layoutY="573.0" majorTickUnit="1.0" max="10.0" minorTickCount="2" onMouseClicked="#updateRPM" onMouseDragged="#updateRPM" onMousePressed="#updateRPM" onMouseReleased="#updateRPM" prefHeight="38.0" prefWidth="241.0" showTickLabels="true" showTickMarks="true" value="2.0" />
       <Text layoutX="567.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dv10:" />
       <Text layoutX="567.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dv50:" />
       <TextFlow fx:id="tf1" layoutX="293.0" layoutY="255.0" prefHeight="25.0" prefWidth="74.0" />

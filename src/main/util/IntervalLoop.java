@@ -12,12 +12,18 @@ public class IntervalLoop {
 	double[] volumeVector = new double[50];
 	ArrayList<Double> items = new ArrayList<>();
 	double totalV = 0.0;
+	int size;
 	
 	public IntervalLoop(double dmin, double dmax){
 		this.dmin = dmin;
 		this.dmax = dmax;
 		this.q = Math.pow(dmax/dmin, 1.0/50);
 	}
+	
+	public void clearItems(){
+		items.clear();
+	}
+	
 	
 	public void addItem(double val){
 		int index = getIndex(val);
@@ -26,9 +32,20 @@ public class IntervalLoop {
 			cardinalityVector[index]++;
 			volumeVector[index] += d2Volume(val);
 			items.add(val);
-		} catch (Exception e) {
+			System.out.println(items.toString());
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage() + "bazdmeg");
 		}
 	} 
+	
+	public int getItemsSize(){
+		int itemsSize = items.size();
+		
+		return itemsSize;
+	}
 	
 	public double getTopBound(int index){
 		return dmax*Math.pow(q, index+1);

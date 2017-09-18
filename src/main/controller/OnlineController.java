@@ -38,6 +38,9 @@ public class OnlineController extends Parent{
 	Text txt1, txt2, txt3, txt4, txt5, rpmTxt, rpmTxt1, Dv50text, autotext1, autotext2, RPMtext;
 	static SerialPort chosenPort;
 	String setDv50 = "600 - 800 µm";
+	String scannedFolder = "D:\\TDK Képek\\Mérés\\Javanak";
+	
+	
 	//Sliderclicknél értéket váltson
 	public void setSliderVal(){
 		int a = (int) (slider.getValue() + 0.2);
@@ -64,14 +67,15 @@ public class OnlineController extends Parent{
 			autotext2.setFill(Color.DARKGRAY);
 			RPMtext.setVisible(false);
 		}
-		AnalyzeHandler b = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
+		AnalyzeHandler b = new AnalyzeHandler(scannedFolder);
 		b.getMode(slider);
 	}
 
 	public void updateRPM(){
-		AnalyzeHandler c = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
+		AnalyzeHandler c = new AnalyzeHandler(scannedFolder);
 		c.getRPM(rpmSlider);
 		rpmTxt.setText(String.format("%.2f", c.getRPM(rpmSlider)));
+		Arduino.sendData(c.getRPM(rpmSlider) * 25);
 	}
 
 
@@ -80,7 +84,7 @@ public class OnlineController extends Parent{
 	}
 
 	public void trigger() {
-		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
+		AnalyzeHandler a = new AnalyzeHandler(scannedFolder);
 		//AnalyzeHandler a = new AnalyzeHandler("/Users/istvanhoffer/Desktop/images");
 		a.setImageView(img);
 		a.setTextArea(txt1, txt2, txt3, txt4, txt5, RPMtext);
@@ -118,6 +122,7 @@ public class OnlineController extends Parent{
 		series50.setName("Dv50");
 		XYChart.Series<String, Number> series90 = new XYChart.Series<>();
 		series90.setName("Dv90");
+		lineYAxis.setForceZeroInRange(false);
 		lineChart.getData().add(series10);
 		lineChart.getData().add(series50);
 		lineChart.getData().add(series90);

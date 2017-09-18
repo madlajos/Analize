@@ -40,8 +40,9 @@ public class AnalyzeImage {
 	private void analyzeImage() throws Exception {
 		ImagePlus imp = IJ.openImage(path);
 		IJ.run(imp, "8-bit", "");
-		//IJ.setAutoThreshold(imp, "Default dark");
-		IJ.setRawThreshold(imp, 177, 255, null);
+		//IJ.run(imp, "Set Scale...", "distance=18 known=110 unit=um");
+		IJ.setAutoThreshold(imp, "Li dark");
+		//IJ.setRawThreshold(imp, 88, 255, null);
 		Prefs.blackBackground = false;
 		IJ.run(imp, "Convert to Mask", "");
 		IJ.run(imp, "Set Measurements...", "area perimeter shape feret's limit redirect=None decimal=2");
@@ -51,7 +52,7 @@ public class AnalyzeImage {
 		PrintStream old = System.out;
 		// Tell Java to use your special stream
 		System.setOut(ps);
-		IJ.run(imp, "Analyze Particles...", "size=100-Infinity show=Outlines display exclude");
+		IJ.run(imp, "Analyze Particles...", "size=80-Infinity display exclude");
 		System.setOut(old);
 		outputHandler(baos, filename);
 	}
