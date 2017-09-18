@@ -32,12 +32,9 @@ public class IntervalLoop {
 			cardinalityVector[index]++;
 			volumeVector[index] += d2Volume(val);
 			items.add(val);
-			System.out.println(items.toString());
-			
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e.getMessage() + "bazdmeg");
 		}
 	} 
 	

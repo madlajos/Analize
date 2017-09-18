@@ -20,7 +20,7 @@ public class AnalyzeImage {
 	private AnalyzeMode mode;
 	private String path, filename, output;
 	private boolean tus;
-	
+
 	public AnalyzeImage(AnalyzeMode mode, String path, String filename, String output, boolean tus){
 		this.path = path;
 		this.filename = filename;
@@ -28,7 +28,7 @@ public class AnalyzeImage {
 		this.output = output;
 		this.tus = tus;
 	}
-	
+
 	public void startAnalyze(){
 		try {
 			analyzeImage();
@@ -36,13 +36,13 @@ public class AnalyzeImage {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void analyzeImage() throws Exception {
 		ImagePlus imp = IJ.openImage(path);
 		IJ.run(imp, "8-bit", "");
 		//IJ.run(imp, "Set Scale...", "distance=18 known=110 unit=um");
-		IJ.setAutoThreshold(imp, "Li dark");
-		//IJ.setRawThreshold(imp, 88, 255, null);
+		//IJ.setAutoThreshold(imp, "Li dark");
+		IJ.setRawThreshold(imp, 88, 255, null);
 		Prefs.blackBackground = false;
 		IJ.run(imp, "Convert to Mask", "");
 		IJ.run(imp, "Set Measurements...", "area perimeter shape feret's limit redirect=None decimal=2");
@@ -56,7 +56,7 @@ public class AnalyzeImage {
 		System.setOut(old);
 		outputHandler(baos, filename);
 	}
-	
+
 	private void outputHandler(ByteArrayOutputStream baos, String filename) throws Exception{
 		switch(mode){
 		case GRANULALAS:
@@ -70,7 +70,7 @@ public class AnalyzeImage {
 			break;
 		}
 	}
-	
+
 	private void Offline(ByteArrayOutputStream baos) throws Exception {
 		File file = new File(output + File.separator + "Osszes.arff");
 		file.createNewFile();
@@ -99,48 +99,50 @@ public class AnalyzeImage {
 				String temp = c == 0 ? "Form" : form;
 				line = line.replace("\t" , ",");
 				line = line + "," + temp + "\r\n";
-				if (c > 0) {
-					Files.write(Paths.get(output + File.separator + "Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
+				//if (c > 0) {	
+					if(c >= 0) {
+						Files.write(Paths.get(output + File.separator + "Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
+					}
+					c++;
 				}
-				c++;
+			}
+		}
+
+		private void Granulalas(ByteArrayOutputStream baos) throws Exception{
+			File file = new File(output + File.separator + "Osszes.arff");
+			file.createNewFile();
+			try {
+				File Temp = new File(output + File.separator + "Temp.arff");
+				Temp.createNewFile();
+				Files.write(Paths.get(output + File.separator + "Temp.arff"), baos.toString().getBytes());
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+			writeFile(output + File.separator + "Temp.arff");
+		}
+
+		private void Online(ByteArrayOutputStream baos, String filename) throws Exception {
+			OutputStream outputStream = new FileOutputStream(output + File.separator + filename + ".txt");
+			baos.writeTo(outputStream);
+			File file = new File(output + File.separator + "Osszes.arff");
+			file.createNewFile();
+
+			writeFile(output + File.separator + filename + ".txt");
+		}
+
+		private void writeFile(String filename) throws Exception{
+			try(BufferedReader br = new BufferedReader(new FileReader(filename))){
+				int c = 0;
+				String line;
+				while ((line = br.readLine()) != null) {
+					line = line.replace("\t" , ",");
+					line += "\r\n";
+					//if (c > 0) {
+						if (c >= 0) {
+						Files.write(Paths.get(output + File.separator + "Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
+					}
+					c++;
+				}
 			}
 		}
 	}
-
-	private void Granulalas(ByteArrayOutputStream baos) throws Exception{
-		File file = new File(output + File.separator + "Osszes.arff");
-		file.createNewFile();
-		try {
-			File Temp = new File(output + File.separator + "Temp.arff");
-			Temp.createNewFile();
-			Files.write(Paths.get(output + File.separator + "Temp.arff"), baos.toString().getBytes());
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-		writeFile(output + File.separator + "Temp.arff");
-	}
-
-	private void Online(ByteArrayOutputStream baos, String filename) throws Exception {
-		OutputStream outputStream = new FileOutputStream(output + File.separator + filename + ".txt");
-		baos.writeTo(outputStream);
-		File file = new File(output + File.separator + "Osszes.arff");
-		file.createNewFile();
-		
-		writeFile(output + File.separator + filename + ".txt");
-	}
-	
-	private void writeFile(String filename) throws Exception{
-		try(BufferedReader br = new BufferedReader(new FileReader(filename))){
-			int c = 0;
-			String line;
-			while ((line = br.readLine()) != null) {
-				line = line.replace("\t" , ",");
-				line += "\r\n";
-				if (c > 0) {
-					Files.write(Paths.get(output + File.separator + "Osszes.arff"), line.getBytes(), StandardOpenOption.APPEND);
-				}
-				c++;
-			}
-		}
-	}
-}

@@ -25,15 +25,18 @@ public class Beolvas {
 		while((line = br.readLine()) != null){
 			
 			String[] b = line.split(splitBy);
+			
+			//array = Arrays.stream(b).mapToDouble(Double::parseDouble).toArray();
+			try {
 			array = Arrays.stream(b).mapToDouble(Double::parseDouble).toArray();
-
+			} catch(Exception e){
+				continue;
+			}
+			
 			d = (array[4] + array[8])/2 * 5.55;
 			dsum += d;
 			ARsum += array[10];
 			count ++;
-			System.out.println("d: " + d);
-			System.out.println("dsum: " + dsum);
-			System.out.println("line: " + line);
 			double V = 4.0*Math.PI*Math.pow(d/2, 3)/3;
 			Vsum += V;
 			ip.addItem(d);

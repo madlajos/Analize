@@ -28,7 +28,7 @@ import main.util.IntervalLoop;
 public class AnalyzeHandler implements Runnable {
 	private final double DMIN = 1 * 5.5;
 	private final double DMAX = 400 * 5.5;
-	private final double NKEP = 20;
+	private final double NKEP = 5;
 
 	private boolean tus;
 	private final AnalyzeMode mode;
@@ -90,19 +90,18 @@ public class AnalyzeHandler implements Runnable {
 						sendToAnalize(path, listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
 						if(mode == AnalyzeMode.ONLINE){
 							Beolvas.adatbeolvasas(folderPath, output + File.separator + "Osszes.arff", txt1, txt2, ip);
-							System.out.println(ip.getItemsSize());
 							if(c % NKEP == 0){
 								IntervalLoop ipClone = ip;
 								Platform.runLater(() -> updateBarchart(ipClone));
 								ip = new IntervalLoop(DMIN, DMAX);
-								
+
 								String timestamp = new SimpleDateFormat("HH:mm:ss").format(new java.util.Date());
 
 
 								dv10 = ip.getPercentile(10) * 5.5;
 								dv50 = ip.getPercentile(50) * 5.5;
 								dv90 = ip.getPercentile(90) * 5.5;
-
+								
 								if(dv90 > 0) {
 									series10.getData().add(new XYChart.Data(timestamp, dv10 ));
 									series50.getData().add(new XYChart.Data(timestamp, dv50));
@@ -142,31 +141,31 @@ public class AnalyzeHandler implements Runnable {
 									RPMtext.setText(String.format("%.2f", ntoRPM));
 								}
 								ip.clearItems();
-
 							}
-							
-							/*
-							a = b;
-							b = IntervalLoop.getItemsSize();
-							System.out.println("a: " + a);
-							System.out.println("b: " + b);
-
-							if(b - a != 0){
-								c++;
-								System.out.println("c:" + c);
-
-							}
-							*/
 							c++;
-							
+							System.out.println("c: " + c);
 						}
 						if(deleteAnalized){
-							Path from = Paths.get(folderPath + File.separator + listOfFiles[i].getName());
-							Path to = Paths.get("D:\\TDK Képek\\Mérés\\Áthelyezve\\" + listOfFiles[i].getName() );
-							Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
-							Files.delete(listOfFiles[i].toPath());
+							a = b;
+							b = ip.getItemsSize();
+							if (b-a != 0){
+								System.out.println("jó kép");
+								Path from = Paths.get(folderPath + File.separator + listOfFiles[i].getName());
+								Path to = Paths.get("D:\\TDK Képek\\Mérés\\Áthelyezve\\" + listOfFiles[i].getName() );
+								Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+								Files.delete(listOfFiles[i].toPath());
+								
+								
+							}
+							else {
+								System.out.println("junk");
+								Path from = Paths.get(folderPath + File.separator + listOfFiles[i].getName());
+								Path toJunk = Paths.get("D:\\TDK Képek\\Mérés\\Junk\\" + listOfFiles[i].getName() );
+								Files.copy(from, toJunk, StandardCopyOption.REPLACE_EXISTING);
+								Files.delete(listOfFiles[i].toPath());
+							}
 						}
-						
+
 					} catch (Exception e) {
 						e.printStackTrace();
 						System.out.println(e.getMessage());
