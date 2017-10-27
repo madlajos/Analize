@@ -116,7 +116,7 @@ public class AnalyzeHandler implements Runnable {
 								double ntoRPM = round(n * 5 / 255, 2);
 
 								//Ha már megvan a P szabályozó, ezt áthelyezni
-								File log = new File("C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Output\\log.txt");
+								File log = new File("C:\\Users\\gatil\\Desktop\\Output\\log.txt");
 								try{
 									PrintWriter out = new PrintWriter(new FileWriter(log, true));
 									
