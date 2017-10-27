@@ -36,7 +36,8 @@ public class Online extends Application {
 	            Scene scene = new Scene(rootLayout);
 	            primaryStage.setScene(scene);
 	            primaryStage.show();
-	            Image icon = new Image("file:C://Users//madla//OneDrive//Documents//GitHub//Analize//src//main//view//icon2.jpg");
+	            // "file:C://Users//madla//OneDrive//Documents//GitHub//Analize//src//main//view//icon2.jpg"
+	            Image icon = new Image("file:C://Users//gatil//OneDrive//Dokumentumok//GitHub//Analize//src//main//view//icon2.jpg");
 	            primaryStage.getIcons().add(icon);
 	        } catch (IOException e) {
 	            e.printStackTrace();

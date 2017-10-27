@@ -40,7 +40,8 @@ public class Offline extends Application {
 			((OfflineController) loader.getController()).setStage(stage);
 			stage.setScene(scene);
 			stage.setTitle("Offline Image Analysis");
-			Image icon = new Image("file:C://Users//madla//OneDrive//Documents//GitHub//Analize//src//main//view//icon2.jpg");
+			// "file:C://Users//madla//OneDrive//Documents//GitHub//Analize//src//main//view//icon2.jpg"
+			Image icon = new Image("file:C://Users//gatil//OneDrive//Dokumentumok//GitHub//Analize//src//main//view//icon2.jpg");
             stage.getIcons().add(icon);
 		} catch (IOException e) {
 			e.printStackTrace();

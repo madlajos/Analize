@@ -67,12 +67,14 @@ public class OnlineController extends Parent{
 			autotext2.setFill(Color.DARKGRAY);
 			RPMtext.setVisible(false);
 		}
-		AnalyzeHandler b = new AnalyzeHandler("C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Images");
+		// "C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Images"
+		AnalyzeHandler b = new AnalyzeHandler("C:\\Users\\gatil\\Desktop\\Output\\Képek");
 		b.getMode(slider);
 	}
 
 	public void updateRPM(){
-		AnalyzeHandler c = new AnalyzeHandler("C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Images");
+		// "C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Images"
+		AnalyzeHandler c = new AnalyzeHandler("C:\\Users\\gatil\\Desktop\\Output\\Képek");
 		c.getRPM(rpmSlider);
 		rpmTxt.setText(String.format("%.2f", c.getRPM(rpmSlider)));
 	}
@@ -83,7 +85,8 @@ public class OnlineController extends Parent{
 	}
 
 	public void trigger() {
-		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Images");
+		// "C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Images"
+		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\gatil\\Desktop\\Output\\Képek");
 		//AnalyzeHandler a = new AnalyzeHandler("/Users/istvanhoffer/Desktop/images");
 		a.setImageView(img);
 		a.setTextArea(txt1, txt2, txt3, txt4, txt5, RPMtext);
