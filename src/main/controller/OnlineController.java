@@ -16,6 +16,9 @@ import javafx.scene.text.Text;
 import main.AnalyzeHandler;
 import main.util.Arduino;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.*;
 
 public class OnlineController extends Parent{
 	@FXML
@@ -64,12 +67,12 @@ public class OnlineController extends Parent{
 			autotext2.setFill(Color.DARKGRAY);
 			RPMtext.setVisible(false);
 		}
-		AnalyzeHandler b = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
+		AnalyzeHandler b = new AnalyzeHandler("C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Images");
 		b.getMode(slider);
 	}
 
 	public void updateRPM(){
-		AnalyzeHandler c = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
+		AnalyzeHandler c = new AnalyzeHandler("C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Images");
 		c.getRPM(rpmSlider);
 		rpmTxt.setText(String.format("%.2f", c.getRPM(rpmSlider)));
 	}
@@ -80,7 +83,7 @@ public class OnlineController extends Parent{
 	}
 
 	public void trigger() {
-		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\madla\\Google Drive\\TDK\\Java\\kepek hofinak");
+		AnalyzeHandler a = new AnalyzeHandler("C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Images");
 		//AnalyzeHandler a = new AnalyzeHandler("/Users/istvanhoffer/Desktop/images");
 		a.setImageView(img);
 		a.setTextArea(txt1, txt2, txt3, txt4, txt5, RPMtext);
@@ -105,6 +108,15 @@ public class OnlineController extends Parent{
 			comboBox.setDisable(false);
 			connectButton.setText("Connect");
 		}
+//		try {
+//			Socket kksocket = new Socket("localhost", 12302);
+//		} catch (UnknownHostException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}	
 	}
 
 	public void searchPorts(){

@@ -19,8 +19,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import main.controller.OnlineController;
 import main.util.Arduino;
 import main.util.IntervalLoop;
+import java.net.*;
 
 public class AnalyzeHandler implements Runnable {
 	private final double DMIN = 10;
@@ -30,9 +32,10 @@ public class AnalyzeHandler implements Runnable {
 	private boolean tus;
 	private final AnalyzeMode mode;
 	private String folderPath;
-	private boolean deleteAnalized = true;
-	private String output = "C:\\Users\\madla\\Google Drive\\TDK\\Java\\Results";
-
+	private boolean deleteAnalized = false;
+	private String output = "C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Output";
+	PrintWriter out;
+	
 	//private String output = "/Users/istvanhoffer/Desktop/Results";
 	ImageView img;
 	Text txt1, txt2, txt3, txt4, txt5, RPMtext;
@@ -63,9 +66,10 @@ public class AnalyzeHandler implements Runnable {
 		mode = AnalyzeMode.GRANULALAS;
 	}
 
-	public double analyse() throws IOException {
+	public void analyse() throws IOException {
 		File folder = new File(folderPath);
 		int c = 0;
+		Socket kksocket = new Socket("localhost",12302);
 		while (true){
 			File[] listOfFiles = folder.listFiles();
 			for (int i = 0; i < listOfFiles.length; i++) {
@@ -93,7 +97,10 @@ public class AnalyzeHandler implements Runnable {
 								dv10 = ip.getPercentile(10);
 								dv50 = ip.getPercentile(50);
 								dv90 = ip.getPercentile(90);
-
+								
+								out = new PrintWriter(kksocket.getOutputStream(), true);
+								out.println(Double.toString(dv50));
+								
 								if(dv90 > 0) {
 									series10.getData().add(new XYChart.Data(timestamp, dv10));
 									series50.getData().add(new XYChart.Data(timestamp, dv50));
@@ -109,7 +116,7 @@ public class AnalyzeHandler implements Runnable {
 								double ntoRPM = round(n * 5 / 255, 2);
 
 								//Ha már megvan a P szabályozó, ezt áthelyezni
-								File log = new File("C:\\Users\\madla\\Google Drive\\TDK\\Java\\log.txt");
+								File log = new File("C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Output\\log.txt");
 								try{
 									PrintWriter out = new PrintWriter(new FileWriter(log, true));
 									
@@ -137,9 +144,9 @@ public class AnalyzeHandler implements Runnable {
 						c++;				
 					}
 					if(deleteAnalized){
-						Path from = Paths.get(folderPath + File.separator + listOfFiles[i].getName());
-						Path to = Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\athelyezve\\" + listOfFiles[i].getName() );
-						Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+//						Path from = Paths.get(folderPath + File.separator + listOfFiles[i].getName());
+//						Path to = Paths.get("C:\\Users\\madla\\Google Drive\\TDK\\Java\\athelyezve\\" + listOfFiles[i].getName() );
+//						Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
 
 						Files.delete(listOfFiles[i].toPath());
 					}
@@ -202,6 +209,7 @@ public void setTextArea(Text txt1, Text txt2, Text txt3, Text txt4, Text txt5, T
 public void run() {
 	try {
 		analyse();
+		
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
