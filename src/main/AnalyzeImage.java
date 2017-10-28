@@ -120,12 +120,13 @@ public class AnalyzeImage {
 	}
 
 	private void Online(ByteArrayOutputStream baos, String filename) throws Exception {
-		OutputStream outputStream = new FileOutputStream(output + File.separator + filename + ".txt");
+		OutputStream outputStream = new FileOutputStream(output + File.separator + filename + ".csv");
 		baos.writeTo(outputStream);
 		File file = new File(output + File.separator + "Osszes.arff");
 		file.createNewFile();
 		
-		writeFile(output + File.separator + filename + ".txt");
+		writeFile(output + File.separator + filename + ".csv");
+		
 	}
 	
 	private void writeFile(String filename) throws Exception{

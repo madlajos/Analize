@@ -33,8 +33,9 @@ public class AnalyzeHandler implements Runnable {
 	private final AnalyzeMode mode;
 	private String folderPath;
 	private boolean deleteAnalized = false;
-	private String output = "C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Output";
+	private String output = "C:\\Users\\gatil\\Desktop\\Output";
 	PrintWriter out;
+	PrintWriter outToPy;
 	
 	//private String output = "/Users/istvanhoffer/Desktop/Results";
 	ImageView img;
@@ -69,7 +70,8 @@ public class AnalyzeHandler implements Runnable {
 	public void analyse() throws IOException {
 		File folder = new File(folderPath);
 		int c = 0;
-		Socket kksocket = new Socket("localhost",12302);
+	//	Socket kksocket = new Socket("localhost",12302);
+		Socket pySocket = new Socket("localhost", 14000);
 		while (true){
 			File[] listOfFiles = folder.listFiles();
 			for (int i = 0; i < listOfFiles.length; i++) {
@@ -98,8 +100,11 @@ public class AnalyzeHandler implements Runnable {
 								dv50 = ip.getPercentile(50);
 								dv90 = ip.getPercentile(90);
 								
-								out = new PrintWriter(kksocket.getOutputStream(), true);
-								out.println(Double.toString(dv50));
+						//		out = new PrintWriter(kksocket.getOutputStream(), true);
+						//		out.println(Double.toString(dv50));
+								
+								outToPy = new PrintWriter(pySocket.getOutputStream(), true);
+								outToPy.println(path);
 								
 								if(dv90 > 0) {
 									series10.getData().add(new XYChart.Data(timestamp, dv10));
