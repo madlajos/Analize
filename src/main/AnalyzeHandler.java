@@ -32,7 +32,7 @@ public class AnalyzeHandler implements Runnable {
 	private boolean tus;
 	private final AnalyzeMode mode;
 	private String folderPath;
-	private boolean deleteAnalized = false;
+	private boolean deleteAnalized = true;
 	private String output = "C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Output";
 	PrintWriter out;
 	
@@ -99,7 +99,7 @@ public class AnalyzeHandler implements Runnable {
 								dv90 = ip.getPercentile(90);
 								
 								out = new PrintWriter(kksocket.getOutputStream(), true);
-								out.println(Double.toString(dv50));
+								out.println("CAM@2@"+Double.toString(dv50)+"@1");
 								
 								if(dv90 > 0) {
 									series10.getData().add(new XYChart.Data(timestamp, dv10));
@@ -121,9 +121,9 @@ public class AnalyzeHandler implements Runnable {
 									PrintWriter out = new PrintWriter(new FileWriter(log, true));
 									
 									if (getMode(slider) == 0){
-										out.append(timestamp + "\t" + round(getRPM(rpmSlider), 2) + "\t" + round(dv10, 2) + "\t" + round(dv50, 2) + "\t" + round(dv90,2) + "\r\n");
+										out.append(timestamp + "\t" + dv10 + "\t" + dv50 + "\t" + dv90 + "\r\n");
 									} else {
-										out.append(timestamp + "\t" + ntoRPM + "\t" + round(dv10, 2) + "\t" + round(dv50, 2) + "\t" + round(dv90,2) + "\r\n");
+										out.append(timestamp + "\t" + dv10 + "\t" + dv50 + "\t" + dv90 + "\r\n");
 									}
 								
 								out.close();
