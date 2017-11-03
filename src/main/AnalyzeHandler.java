@@ -23,8 +23,9 @@ import main.controller.OnlineController;
 import main.util.Arduino;
 import main.util.IntervalLoop;
 import java.net.*;
+import java.util.TimerTask;
 
-public class AnalyzeHandler implements Runnable {
+public class AnalyzeHandler extends TimerTask/*implements Runnable*/ {
 	private final double DMIN = 10;
 	private final double DMAX = 80;
 	private final double NKEP = 1;
@@ -69,8 +70,8 @@ public class AnalyzeHandler implements Runnable {
 	public void analyse() throws IOException {
 		File folder = new File(folderPath);
 		int c = 0;
-		Socket kksocket = new Socket("localhost",12302);
-		while (true){
+		//Socket kksocket = new Socket("localhost",12302);
+		
 			File[] listOfFiles = folder.listFiles();
 			for (int i = 0; i < listOfFiles.length; i++) {
 				if (listOfFiles[i].isFile()) {
@@ -98,8 +99,8 @@ public class AnalyzeHandler implements Runnable {
 								dv50 = ip.getPercentile(50);
 								dv90 = ip.getPercentile(90);
 								
-								out = new PrintWriter(kksocket.getOutputStream(), true);
-								out.println("CAM@2@"+Double.toString(dv50)+"@1");
+						//		out = new PrintWriter(kksocket.getOutputStream(), true);
+						//		out.println("CAM@2@"+Double.toString(dv50)+"@1");
 								
 								if(dv90 > 0) {
 									series10.getData().add(new XYChart.Data(timestamp, dv10));
@@ -154,7 +155,7 @@ public class AnalyzeHandler implements Runnable {
 					e.printStackTrace();
 					System.out.println(e.getMessage());
 				}
-			}
+			
 		}
 	}
 }

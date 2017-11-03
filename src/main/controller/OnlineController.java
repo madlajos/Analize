@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import main.AnalyzeHandler;
 import main.util.Arduino;
-
+import java.util.Timer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.*;
@@ -91,9 +91,11 @@ public class OnlineController extends Parent{
 		a.getRPM(rpmSlider);
 		setupLinechart(a);
 		setupBarchart(a);
-		Thread t = new Thread(a);	
+		Timer timedAnalysis = new Timer();
+		timedAnalysis.schedule(a, 0, 1000);
+		//Thread t = new Thread(a);	
 		startButton.setDisable(true);
-		t.start();
+		//t.start();
 	}
 
 	public void connect() {
