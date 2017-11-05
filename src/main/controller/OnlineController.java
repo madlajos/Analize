@@ -68,13 +68,13 @@ public class OnlineController extends Parent{
 			RPMtext.setVisible(false);
 		}
 		// "C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Images"
-		AnalyzeHandler b = new AnalyzeHandler("C:\\Users\\gatil\\Desktop\\Output\\Képek");
+		AnalyzeHandler b = new AnalyzeHandler("C:\\Users\\gatil\\Desktop\\Output\\Images");
 		b.getMode(slider);
 	}
 
 	public void updateRPM(){
 		// "C:\\Users\\plc-user\\Documents\\Levente\\Krist\\Images"
-		AnalyzeHandler c = new AnalyzeHandler("C:\\Users\\gatil\\Desktop\\Output\\Képek");
+		AnalyzeHandler c = new AnalyzeHandler("C:\\Users\\gatil\\Desktop\\Output\\Images");
 		c.getRPM(rpmSlider);
 		rpmTxt.setText(String.format("%.2f", c.getRPM(rpmSlider)));
 	}
